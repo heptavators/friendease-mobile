@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Friendease</string>
+    <string name="home_nav">Home</string>
+    <string name="talent_nav">Talent</string>
+    <string name="about_nav">About</string>
+    <string name="search_nav">Search</string>
+    <string name="schedule_nav">Schedule</string>
+    <string name="payment_nav">Payment</string>
+    <string name="notification_nav">Notif</string>
+    <string name="profile_nav">Profile</string>
+</resources>
