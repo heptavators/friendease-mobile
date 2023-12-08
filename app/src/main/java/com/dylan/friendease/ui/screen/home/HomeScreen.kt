@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.dylan.friendease.R
 import com.dylan.friendease.ui.components.CardView
 import com.dylan.friendease.ui.theme.FriendeaseTheme
+import com.dylan.friendease.ui.theme.roboto
 
 @Composable
 fun HomeScreen() {
@@ -61,6 +62,7 @@ fun HomeScreen() {
                 ) {
                     Text(
                         text = "Bosen sendirian? \nCari teman jalan!",
+                        fontFamily = roboto,
                         color = Color.White,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
@@ -68,6 +70,7 @@ fun HomeScreen() {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "#bersamalebihasyik",
+                        fontFamily = roboto,
                         color = Color.White,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.SemiBold
@@ -82,6 +85,7 @@ fun HomeScreen() {
                     ) {
                         Text(
                             text = "Ajak jalan sekarang",
+                            fontFamily = roboto,
                             color = Color.White,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Normal

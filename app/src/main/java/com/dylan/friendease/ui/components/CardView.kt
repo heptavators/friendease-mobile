@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dylan.friendease.R
 import com.dylan.friendease.ui.theme.FriendeaseTheme
+import com.dylan.friendease.ui.theme.roboto
 
 
 @Composable
@@ -72,12 +73,14 @@ fun CardView(modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         text = "Fujikawa Chiai",
+                        fontFamily = roboto,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
 
                     Text(
                         text = "@fuji_chiai",
+                        fontFamily = roboto,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
@@ -85,6 +88,7 @@ fun CardView(modifier: Modifier = Modifier) {
             }
             Text(
                 text = "Saya adalah seorang musisi, bisa bermain gitar, dan pendengar yang ba...",
+                fontFamily = roboto,
                 color = MaterialTheme.colorScheme.secondary,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier
@@ -132,6 +136,7 @@ fun Tag(text: String, color: Color) {
     ) {
         Text(
             text = text,
+            fontFamily = roboto,
             color = Color.Black,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(4.dp)
