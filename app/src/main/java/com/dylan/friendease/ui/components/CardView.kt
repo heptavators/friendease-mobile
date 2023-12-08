@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dylan.friendease.R
+import com.dylan.friendease.ui.theme.FriendeaseTheme
 
 
 @Composable
@@ -40,10 +41,10 @@ fun CardView(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(15.dp)
+                shape = RoundedCornerShape(10.dp)
             )
             .padding(4.dp)
-            .shadow(4.dp, shape = RoundedCornerShape(15.dp))
+            .shadow(4.dp, shape = RoundedCornerShape(10.dp))
     ) {
         Column(
             modifier = Modifier
@@ -71,23 +72,23 @@ fun CardView(modifier: Modifier = Modifier) {
                 ) {
                     Text(
                         text = "Fujikawa Chiai",
-                        color = Color(0xFF9B274F),
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
 
                     Text(
                         text = "@fuji_chiai",
-                        color = Color(0xFF9B274F),
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                     )
                 }
             }
             Text(
                 text = "Saya adalah seorang musisi, bisa bermain gitar, dan pendengar yang ba...",
-                color = Color(0xFF9B274F),
+                color = MaterialTheme.colorScheme.secondary,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(4.dp)
             )
 
             Row(
@@ -127,13 +128,13 @@ fun Tag(text: String, color: Color) {
                 color = color,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(4.dp)
+            .padding(1.dp)
     ) {
         Text(
             text = text,
             color = Color.Black,
             fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(4.dp)
         )
     }
 }
@@ -141,7 +142,7 @@ fun Tag(text: String, color: Color) {
 @Composable
 @Preview(showBackground = true)
 fun MenuItemPreview(){
-    MaterialTheme{
+    FriendeaseTheme{
         CardView()
     }
 }

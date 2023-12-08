@@ -97,17 +97,17 @@ fun App(
                 composable(Screen.Login.route) {
 
                 }
-                composable(Screen.Home.route) {
-                   HomeScreen(
-                        navigateToLogin = {
-                            navController.navigate(Screen.Welcome.route) {
-                                popUpTo(navController.graph.id) {
-                                    inclusive = true
-                                }
-                            }
-                        },
-                    )
-                }
+//                composable(Screen.Home.route) {
+//                   HomeScreen(
+//                        navigateToLogin = {
+//                            navController.navigate(Screen.Welcome.route) {
+//                                popUpTo(navController.graph.id) {
+//                                    inclusive = true
+//                                }
+//                            }
+//                        },
+//                    )
+//                }
                 composable(
                     route = Screen.DetailTalent.route,
                     arguments = listOf(navArgument("idTalent") { type = NavType.StringType }
