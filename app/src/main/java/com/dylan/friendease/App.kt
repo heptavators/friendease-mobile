@@ -35,7 +35,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.dylan.friendease.ui.navigation.NavigationItem
 import com.dylan.friendease.ui.navigation.Screen
+import com.dylan.friendease.ui.screen.Search.SearchScreen
 import com.dylan.friendease.ui.screen.home.HomeScreen
+import com.dylan.friendease.ui.screen.notification.NotificationScreen
 import com.dylan.friendease.ui.screen.welcome.WelcomeScreen
 import com.dylan.friendease.ui.theme.roboto
 import com.dylan.friendease.ui.utlis.showBottomBar
@@ -124,14 +126,30 @@ fun App(
 //                    FavoriteScreen()
                 }
                 composable(Screen.Search.route) {
-    //                    FavoriteScreen()
+                    SearchScreen(
+                        navigateToLogin = {
+                            navController.navigate(Screen.Welcome.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                    )
                 }
 
                 composable(Screen.Schedule.route) {
     //                    FavoriteScreen()
                 }
                 composable(Screen.Notification.route) {
-                    //                    FavoriteScreen()
+                    NotificationScreen(
+                            navigateToLogin = {
+                                navController.navigate(Screen.Welcome.route) {
+                                    popUpTo(navController.graph.id) {
+                                        inclusive = true
+                                    }
+                                }
+                            },
+                        )
                 }
 
                 composable(Screen.Profile.route) {
