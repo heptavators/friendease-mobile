@@ -1,4 +1,4 @@
-package com.dylan.friendease.ui.screen
+package com.dylan.friendease.ui.screen.register
 
 
 import androidx.compose.foundation.Image
