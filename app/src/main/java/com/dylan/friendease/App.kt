@@ -1,5 +1,6 @@
 package com.dylan.friendease
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,11 @@ import com.dylan.friendease.ui.navigation.NavigationItem
 import com.dylan.friendease.ui.navigation.Screen
 import com.dylan.friendease.ui.screen.Search.SearchScreen
 import com.dylan.friendease.ui.screen.home.HomeScreen
+import com.dylan.friendease.ui.screen.login.LoginScreen
 import com.dylan.friendease.ui.screen.notification.NotificationScreen
+import com.dylan.friendease.ui.screen.profile.ProfileScreen
+import com.dylan.friendease.ui.screen.register.RegisterScreen
+import com.dylan.friendease.ui.screen.schedule.ScheduleScreen
 import com.dylan.friendease.ui.screen.welcome.WelcomeScreen
 import com.dylan.friendease.ui.theme.roboto
 import com.dylan.friendease.ui.utlis.showBottomBar
@@ -87,6 +92,13 @@ fun App(
                                 }
                             }
                         },
+                        navigateToRegister = {
+                            navController.navigate(Screen.Register.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
                         navigateToHome = {
                             navController.navigate(Screen.Home.route) {
                                 popUpTo(navController.graph.id) {
@@ -96,11 +108,8 @@ fun App(
                         },
                     )
                 }
-                composable(Screen.Login.route) {
-
-                }
                 composable(Screen.Home.route) {
-                   HomeScreen(
+                    HomeScreen(
                         navigateToLogin = {
                             navController.navigate(Screen.Welcome.route) {
                                 popUpTo(navController.graph.id) {
@@ -110,6 +119,39 @@ fun App(
                         },
                     )
                 }
+                composable(Screen.Login.route) {
+                    LoginScreen(
+                        navigateToHome = {
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                    )
+                }
+                composable(Screen.Register.route) {
+                    RegisterScreen(
+                        navigateToHome = {
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                    )
+                }
+//                composable(Screen.Home.route) {
+//                   HomeScreen(
+//                        navigateToLogin = {
+//                            navController.navigate(Screen.Welcome.route) {
+//                                popUpTo(navController.graph.id) {
+//                                    inclusive = true
+//                                }
+//                            }
+//                        },
+//                    )
+//                }
                 composable(
                     route = Screen.DetailTalent.route,
                     arguments = listOf(navArgument("idTalent") { type = NavType.StringType }
@@ -138,22 +180,52 @@ fun App(
                 }
 
                 composable(Screen.Schedule.route) {
-    //                    FavoriteScreen()
+                    ScheduleScreen(
+                        navigateToLogin = {
+                            navController.navigate(Screen.Welcome.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                    )
                 }
                 composable(Screen.Notification.route) {
                     NotificationScreen(
-                            navigateToLogin = {
-                                navController.navigate(Screen.Welcome.route) {
-                                    popUpTo(navController.graph.id) {
-                                        inclusive = true
-                                    }
+                        navigateToLogin = {
+                            navController.navigate(Screen.Welcome.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
                                 }
-                            },
-                        )
+                            }
+                        },
+                    )
                 }
 
                 composable(Screen.Profile.route) {
-    //                    AboutScreen()
+                   ProfileScreen(
+                        navigateToLogin = {
+                            navController.navigate(Screen.Welcome.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                       navigateToNotification = {
+                           navController.navigate(Screen.Notification.route) {
+                               popUpTo(navController.graph.id) {
+                                   inclusive = true
+                               }
+                           }
+                       },
+                       navigateToWelcome = {
+                           navController.navigate(Screen.Welcome.route) {
+                               popUpTo(navController.graph.id) {
+                                   inclusive = true
+                               }
+                           }
+                       },
+                    )
                 }
             }
         }
@@ -248,25 +320,30 @@ fun BottomBar(
 fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true) {
-        delay(1000L)
-        navController.navigate(Screen.Home.route)
+        delay(10000L)
+        navController.navigate(Screen.Welcome.route)
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary),
+            .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "FriendEase",
-            fontSize = 50.sp,
-            fontFamily = roboto,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier,
-            color = MaterialTheme.colorScheme.tertiary,
-//            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+        Image(
+            painter = painterResource(id = R.drawable.logo_friendease),
+            contentDescription = null,
+            modifier = Modifier.size(200.dp),
         )
+//        Text(
+//            text = "FriendEase",
+//            fontSize = 50.sp,
+//            fontFamily = roboto,
+//            fontWeight = FontWeight.Bold,
+//            modifier = Modifier,
+//            color = MaterialTheme.colorScheme.tertiary,
+////            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+//        )
     }
 }

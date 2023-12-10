@@ -1,32 +1,28 @@
-package com.dylan.friendease.ui.screen.welcome
+package com.dylan.friendease.ui.screen.register
+
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DrawerDefaults.shape
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,36 +31,38 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dylan.friendease.R
+import com.dylan.friendease.ui.components.CustomInput
+import com.dylan.friendease.ui.components.PasswordInput
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-fun WelcomeScreen(
+fun RegisterScreen(
     modifier: Modifier = Modifier,
-    navigateToLogin: () -> Unit,
-    navigateToRegister: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
+    var emailText by remember { mutableStateOf("") }
+    var passwordText by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
-            .background(Color.White)
     ) {
         Spacer(modifier = Modifier.height(22.dp))
         Image(
-            painter = painterResource(id = R.drawable.welcome),
+            painter = painterResource(id = R.drawable.sign_up),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,7 +72,7 @@ fun WelcomeScreen(
             alignment = Alignment.Center
         )
         Text(
-            text = "Hello",
+            text = "Sign up",
             fontFamily = roboto,
             style = TextStyle(
                 fontWeight = FontWeight.ExtraBold,
@@ -85,71 +83,52 @@ fun WelcomeScreen(
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = "Selamat datang di FriendEase, dimana kalian bisa mencari teman",
-            fontFamily = roboto,
-            textAlign = TextAlign.Center,
-            style = TextStyle(
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 0.5.sp,
-                lineHeight = 30.sp,
-                fontSize = 16.sp,
-            ),
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
         Spacer(modifier = Modifier.height(20.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp),
+        ){
+            CustomInput(
+                name = "Email",
+                initialText = emailText,
+                onValueChange = { emailText = it }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            PasswordInput(
+                initialText = passwordText,
+                onValueChange = { passwordText = it }
+            )
+        }
+        Spacer(modifier = Modifier.height(5.dp))
         Button(
             onClick = {
-                navigateToLogin()
+                navigateToHome()
             },
             modifier = Modifier
                 .padding(4.dp)
-                .fillMaxWidth()
+                .width(200.dp)
+                .align(Alignment.End)
         ) {
             Text(
-                text = "Login",
+                text = "Sign up",
                 fontFamily = roboto,
                 fontSize = 23.sp,
                 color = MaterialTheme.colorScheme.tertiary,
             )
         }
         Spacer(modifier = Modifier.height(15.dp))
-        Button(
-            onClick = {
-                navigateToRegister()
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = MaterialTheme.colorScheme.primary,
-            ),
-            modifier = Modifier
-                .padding(4.dp)
-                .border(1.dp, MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(30.dp))
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(30.dp))
-
-        ) {
-            Text(
-                text = "Sign up",
-                fontFamily = roboto,
-                fontSize = 23.sp,
-                color = MaterialTheme.colorScheme.primary,
-            )
-        }
-        Spacer(modifier = Modifier.height(15.dp))
     }
 }
 
-@Preview
+
+
 @Composable
-fun WelcomeScreenPreview() {
+@Preview(showBackground = true)
+fun MenuItemPreview() {
     FriendeaseTheme {
-        WelcomeScreen(
-            navigateToLogin = {},
-            navigateToHome = {},
-            navigateToRegister = {}
+        RegisterScreen(
+            navigateToHome = { }
         )
     }
 }

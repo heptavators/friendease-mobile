@@ -49,13 +49,6 @@ fun CardNotif() {
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.ic_inbox_in),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .size(68.dp)
-//                        .clip(CircleShape)
-//                )
                 Box(
                     modifier = Modifier
                         .size(40.dp)

@@ -53,7 +53,7 @@ import com.dylan.friendease.ui.theme.FriendeaseTheme
 fun SearchScreen(
     navigateToLogin: () -> Unit,
     ) {
-
+    var searchText by remember { mutableStateOf("") }
     Column(
     modifier = Modifier
         .fillMaxSize()
@@ -106,7 +106,10 @@ fun SearchScreen(
                         .background(Color.Transparent)
                 )
             }
-            SearchView()
+            SearchView(
+                initialText = searchText,
+                onValueChange = { searchText = it }
+            )
         }
         Box(
             modifier = Modifier
@@ -137,8 +140,10 @@ private fun SearchView(
     trailingIcon: (@Composable () -> Unit)? = null,
     placeholderText: String = "Mau cari teman seperti apa?",
     fontSize: TextUnit = MaterialTheme.typography.bodyMedium.fontSize,
+    initialText: String = "",
+    onValueChange: (String) -> Unit
 ) {
-    var text by rememberSaveable { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf(initialText) }
     BasicTextField(
         modifier = modifier
             .background(
@@ -151,6 +156,7 @@ private fun SearchView(
             value = text,
             onValueChange = {
                 text = it
+                onValueChange(it)
             },
         singleLine = true,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
