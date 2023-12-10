@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
@@ -33,18 +36,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.dylan.friendease.R
 import com.dylan.friendease.ui.screen.home.HomeScreen
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
 
 @Composable
-fun DetailScreen(onBackPressed: () -> Unit) {
+fun DetailScreen(
+
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
             .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         Row(
             modifier = Modifier
@@ -54,7 +61,9 @@ fun DetailScreen(onBackPressed: () -> Unit) {
             horizontalArrangement = Arrangement.Start
         ) {
             IconButton(
-                onClick = { onBackPressed() },
+                onClick = {
+
+                },
                 modifier = Modifier.size(58.dp)
             ) {
                 Icon(
@@ -64,14 +73,23 @@ fun DetailScreen(onBackPressed: () -> Unit) {
                 )
             }
         }
-
-        Image(
-            painter = painterResource(id = R.drawable.slider),
-            contentDescription = "Fujikawa Chiai",
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp)
-        )
+                .clip(RoundedCornerShape(20.dp))
+                .background(MaterialTheme.colorScheme.background),
+            horizontalArrangement = Arrangement.Center
+
+        ) {
+            AsyncImage(
+                model = "https://cdn.myanimelist.net/images/voiceactors/3/59891.jpg",
+                contentDescription = "Fujikawa Chiai",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(MaterialTheme.colorScheme.background)
+            )
+        }
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "Fujikawa Chiai",
@@ -189,6 +207,8 @@ fun DetailScreen(onBackPressed: () -> Unit) {
 @Preview(showBackground = true)
 fun MenuItemPreview() {
     FriendeaseTheme {
-        DetailScreen(onBackPressed = {})
+        DetailScreen(
+
+        )
     }
 }
