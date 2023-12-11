@@ -40,6 +40,7 @@ import com.dylan.friendease.ui.screen.Search.SearchScreen
 import com.dylan.friendease.ui.screen.home.HomeScreen
 import com.dylan.friendease.ui.screen.login.LoginScreen
 import com.dylan.friendease.ui.screen.notification.NotificationScreen
+import com.dylan.friendease.ui.screen.payment.PaymentScreen
 import com.dylan.friendease.ui.screen.profile.ProfileScreen
 import com.dylan.friendease.ui.screen.register.RegisterScreen
 import com.dylan.friendease.ui.screen.schedule.ScheduleScreen
@@ -141,17 +142,7 @@ fun App(
                         },
                     )
                 }
-//                composable(Screen.Home.route) {
-//                   HomeScreen(
-//                        navigateToLogin = {
-//                            navController.navigate(Screen.Welcome.route) {
-//                                popUpTo(navController.graph.id) {
-//                                    inclusive = true
-//                                }
-//                            }
-//                        },
-//                    )
-//                }
+
                 composable(
                     route = Screen.DetailTalent.route,
                     arguments = listOf(navArgument("idTalent") { type = NavType.StringType }
@@ -193,12 +184,23 @@ fun App(
                 composable(Screen.Notification.route) {
                     NotificationScreen(
                         navigateToLogin = {
-                            navController.navigate(Screen.Welcome.route) {
+                            navController.navigate(Screen.Notification.route) {
                                 popUpTo(navController.graph.id) {
                                     inclusive = true
                                 }
                             }
                         },
+                    )
+                }
+                composable(Screen.Payment.route) {
+                    PaymentScreen(
+//                        navigateToLogin = {
+//                            navController.navigate(Screen.Welcome.route) {
+//                                popUpTo(navController.graph.id) {
+//                                    inclusive = true
+//                                }
+//                            }
+//                        },
                     )
                 }
 
@@ -244,7 +246,7 @@ fun BottomBar(
             .fillMaxWidth()
             .clip(RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp)),
     ) {
-        val iconSize = 24.dp
+        val iconSize = 22.dp
 
         val navigationItems = listOf(
             NavigationItem(
@@ -266,6 +268,11 @@ fun BottomBar(
                 title = stringResource(R.string.notification_nav),
                 icon = painterResource(id = R.drawable.ic_bell),
                 screen = Screen.Notification
+            ),
+            NavigationItem(
+                title = stringResource(R.string.payment_nav),
+                icon = painterResource(id = R.drawable.ic_credit_card),
+                screen = Screen.Payment
             ),
             NavigationItem(
                 title = stringResource(R.string.profile_nav),
@@ -320,7 +327,7 @@ fun BottomBar(
 fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true) {
-        delay(10000L)
+        delay(1000L)
         navController.navigate(Screen.Welcome.route)
     }
 

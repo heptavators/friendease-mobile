@@ -32,97 +32,61 @@ import com.dylan.friendease.ui.theme.roboto
 
 @Composable
 fun CardHistoryPayment() {
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
+                .size(50.dp)
                 .fillMaxWidth()
-                .fillMaxHeight()
-                .background(Color.White, shape = RoundedCornerShape(16.dp))
-                .shadow(4.dp, shape = RoundedCornerShape(16.dp))
         ) {
-            Column(
+            Icon(
+                painter = painterResource(id = R.drawable.ic_add),
+                contentDescription = null,
+                tint = Color(0xFF00C3A4),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .padding(end = 12.dp)
-                            .border(0.5.dp, Color.Black, shape = RoundedCornerShape(2.5.dp))
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_add),
-                            contentDescription = null,
-                            tint = Color(0xFF00C3A4),
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(4.dp)
-                        )
-                    }
-
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = "Top Up",
-                            fontFamily = roboto,
-                            color = Color.Black,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = "02 Dec 2023 • 13:18",
-                            fontFamily = roboto,
-                            color = Color.Gray,
-                            fontSize = 12.sp
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Text(
-                        text = "Rp.120.000",
-                        fontFamily = roboto,
-                        color = Color(0xFF00937C),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    color = Color.Gray,
-                    thickness = 1.dp
-                )
-            }
+                    .fillMaxSize()
+                    .padding(4.dp)
+            )
         }
-    }
-}
 
-@Composable
-fun EaseWallet(){
-    Column {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = "Top Up",
+                fontFamily = roboto,
+                color = Color.Black,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "02 Dec 2023 • 13:18",
+                fontFamily = roboto,
+                color = Color.Gray,
+                fontSize = 12.sp
+            )
+        }
 
+        Spacer(modifier = Modifier.weight(1f))
+
+        Text(
+            text = "Rp.120.000",
+            fontFamily = roboto,
+            color = Color(0xFF00937C),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun MenuItemPreview1(){
+fun CardHistoryPaymentPreview(){
     FriendeaseTheme {
-        EaseWallet()
+        CardHistoryPayment()
     }
 }

@@ -1,0 +1,25 @@
+package com.dylan.friendease.ui.screen.profile
+
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import com.dylan.friendease.data.model.UserData
+import com.dylan.friendease.data.repository.UserRepository
+import com.dylan.friendease.ui.components.UiState
+
+class ProfileViewModel(
+    private val repository: UserRepository,
+): ViewModel() {
+    private val _profileData = mutableStateOf<UiState<UserData>>(UiState.Loading)
+    val profileData: State<UiState<UserData>> get() = _profileData
+    fun user() {
+        repository.getProfile().observeForever {
+            when (it) {
+                is UiState.Loading -> _profileData.value = UiState.Loading
+                is UiState.Success -> _profileData.value = UiState.Success(it.data.data)
+                is UiState.Error -> _profileData.value = UiState.Error(it.errorMessage)
+                is UiState.NotLogged -> _profileData.value = UiState.NotLogged
+            }
+        }
+    }
+}

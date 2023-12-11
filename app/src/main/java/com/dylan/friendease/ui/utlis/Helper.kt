@@ -2,6 +2,14 @@ package com.dylan.friendease.ui.utlis
 
 import com.dylan.friendease.ui.navigation.Screen
 
+fun String.truncateText(maxLength: Int = 80): String {
+    return if (this.length <= maxLength) {
+        this
+    } else {
+        this.substring(0, maxLength - 3) + "..."
+    }
+}
+
 fun String?.showBottomBar(): Boolean {
     return when (this) {
         Screen.Home.route -> true

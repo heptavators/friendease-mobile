@@ -1,24 +1,21 @@
 package com.dylan.friendease.ui.components
 
-import androidx.cardview.widget.CardView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -26,14 +23,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,12 +36,18 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.dylan.friendease.R
+import com.dylan.friendease.data.model.TalentData
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
+import com.dylan.friendease.ui.utlis.truncateText
 
 
 @Composable
-fun CardView(modifier: Modifier = Modifier) {
+fun CardView(
+    data: TalentData,
+    modifier: Modifier = Modifier
+) {
+    val tagExample = listOf("gamer", "traveling", "actor", "musician", "singer")
     Box(
         modifier = Modifier
             .padding(5.dp)
@@ -90,7 +90,7 @@ fun CardView(modifier: Modifier = Modifier) {
                                 .align(Alignment.Top)
                         ) {
                             Text(
-                                text = "Fujikawa Chiai",
+                                text = data.auth.fullname.truncateText(40),
                                 fontFamily = roboto,
                                 fontSize = 10.sp,
                                 color = MaterialTheme.colorScheme.primary,
@@ -98,7 +98,7 @@ fun CardView(modifier: Modifier = Modifier) {
                             )
 
                             Text(
-                                text = "@fuji_chiai",
+                                text = data.auth.username,
                                 fontFamily = roboto,
                                 fontSize = 8.sp,
                                 color = MaterialTheme.colorScheme.primary,
@@ -106,8 +106,10 @@ fun CardView(modifier: Modifier = Modifier) {
                             )
                         }
                     }
+
+//                    ganti yang bener nanti
                     Text(
-                        text = "Saya adalah seorang musisi, bisa bermain gitar, dan pendengar yang ba...",
+                        text = data.auth.fullname.truncateText(60),
                         fontFamily = roboto,
                         fontSize = 7.sp,
                         color = MaterialTheme.colorScheme.secondary,
@@ -144,48 +146,31 @@ fun CardView(modifier: Modifier = Modifier) {
                     contentAlignment = Alignment.CenterStart,
                 ) {
                     Row(
-                        modifier = Modifier.padding(top = 25.dp),
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy((-80).dp)
+                        horizontalArrangement = Arrangement.spacedBy((-80).dp),
                     ) {
-                        AsyncImage(
-                            model = "https://cdn.myanimelist.net/images/voiceactors/3/59891.jpg",
-                            contentDescription = "Fujikawa Chiai",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(80.dp)
-                                .height(100.dp)
-                                .weight(9f/16f)
-                                .aspectRatio(9f/16f)
-                                .zIndex(1f)
-                        )
-                        AsyncImage(
-                            model = "https://i.pinimg.com/236x/61/28/ce/6128ce1c1cb48cb285dbc75be30b5a1e.jpg",
-                            contentDescription = "Fujikawa Chiai",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(80.dp)
-                                .height(100.dp)
-                                .weight(9f/16f)
-                                .aspectRatio(9f/16f)
-                                .graphicsLayer(alpha = 0.8f)
-                                .zIndex(0.7f)
-                        )
-                        AsyncImage(
-                            model = "https://todayidol.com/wp-content/uploads/2018/03/Fujikawa-Chiai_Maneki-Kecak.jpg",
-                            contentDescription = "Fujikawa Chiai",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(10.dp))
-                                .size(80.dp)
-                                .height(100.dp)
-                                .weight(9f/16f)
-                                .aspectRatio(9f/16f)
-                                .graphicsLayer(alpha = 0.8f)
-                                .zIndex(0.5f)
-                        )
+                        data.highlights.take(3).mapIndexed { index, highlight ->
+                            val alphaValue = 1.3f - index * 0.3f
+                            val zIndex = 1.3f - index * 0.3f
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .size(80.dp, 100.dp)
+                                    .height(100.dp)
+                                    .aspectRatio(9f / 16f)
+                                    .weight(9f/16f)
+                                    .zIndex(zIndex)
+                            ) {
+                                AsyncImage(
+                                    model = highlight.highlightURL,
+                                    contentDescription = highlight.highlightURL,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .graphicsLayer(alpha = alphaValue)
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -218,6 +203,6 @@ fun Tag(text: String, color: Color) {
 @Preview(showBackground = true)
 fun MenuItemPreview(){
     FriendeaseTheme{
-        CardView()
+//        CardView(talentData = null)
     }
 }

@@ -6,14 +6,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -37,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dylan.friendease.R
 import com.dylan.friendease.ui.components.CardHistoryPayment
+import com.dylan.friendease.ui.components.CardView
 import com.dylan.friendease.ui.screen.profile.WalletCard
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
@@ -51,7 +56,7 @@ fun PaymentScreen() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(180.dp)
                 .background(
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(0.dp, 0.dp, 25.dp, 25.dp)
@@ -67,37 +72,40 @@ fun PaymentScreen() {
                     text = "Dapatkan promo menarik dari EaseWallet",
                     fontFamily = roboto,
                     color = Color.White,
-                    fontSize = 17.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "Aktivasinya GRATIS dan dapatkan diskon untuk\npesanan pertamamu! S&K Berlaku~",
                     fontFamily = roboto,
                     color = Color.White,
-                    fontSize = 15.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Normal
                 )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(2.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
-                        onClick = { },
+                        onClick = { /*TODO*/ },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.background,
+                            contentColor = MaterialTheme.colorScheme.primary
+                        ),
+                        contentPadding = PaddingValues(),
                         modifier = Modifier
-                            .padding(2.dp)
-                            .height(48.dp)
-                            .width(140.dp)
-                            .shadow(4.dp)
-                            .background(Color.White, shape = RoundedCornerShape(16.dp)),
-                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.primary),
+                            .padding(10.dp, 10.dp, 10.dp, 10.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .defaultMinSize(minWidth = 20.dp, minHeight = 20.dp)
                     ) {
                         Text(
                             text = "Coba EaseWallet",
                             fontFamily = roboto,
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(10.dp)
                         )
                     }
 
@@ -112,7 +120,127 @@ fun PaymentScreen() {
                 }
             }
         }
-        CardHistoryPayment()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color.White, shape = RoundedCornerShape(20.dp))
+                .shadow(1.dp, shape = RoundedCornerShape(5.dp))
+        ){
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text(
+                        text = "EaseWallet",
+                        fontFamily = roboto,
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Rp. 120.000",
+                        fontFamily = roboto,
+                        color = Color(0xFF00937C),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(16.dp),
+                    ) {
+                    Text(
+                        text = "Isi Saldo",
+                        fontFamily = roboto,
+                        color = Color(0xFF00937C),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .background(color = Color(0xFF00C3A4).copy(alpha = 0.3f), shape = RoundedCornerShape(5.dp))
+                            .clip(shape = RoundedCornerShape(10.dp))
+                            .padding(3.dp)
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_qr_scan),
+                    contentDescription = "User",
+                    modifier = Modifier
+                        .weight(0.33f)
+                        .size(30.dp)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_inbox_in),
+                    contentDescription = "User",
+                    modifier = Modifier
+                        .weight(0.33f)
+                        .size(30.dp)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_inbox_out),
+                    contentDescription = "User",
+                    modifier = Modifier
+                        .weight(0.33f)
+                        .size(30.dp)
+                )
+            }
+        }
+
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .clip(shape = RoundedCornerShape(20.dp))
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(Color.White, shape = RoundedCornerShape(20.dp))
+                    .shadow(2.dp, shape = RoundedCornerShape(5.dp))
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.White)
+                    ) {
+                        items(10) { index ->
+                            CardHistoryPayment()
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                color = Color.Gray,
+                                thickness = 1.dp
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

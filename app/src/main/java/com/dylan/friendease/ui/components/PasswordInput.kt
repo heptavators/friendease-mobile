@@ -29,14 +29,15 @@ fun PasswordInput(
     initialText: String = "",
     onValueChange: (String) -> Unit
 ) {
-    var password by remember { mutableStateOf(value = "") }
+    var password by remember { mutableStateOf(initialText) }
     var showPassword by remember { mutableStateOf(value = false) }
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth(),
         value = password,
-        onValueChange = { newText ->
-            password = newText
+        onValueChange = {
+            password = it
+            onValueChange(it)
         },
         label = {
             Text(text = "Password")
