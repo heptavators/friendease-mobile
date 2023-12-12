@@ -43,11 +43,7 @@ class UserRepository(
                     if (!errorBody.isNullOrBlank()) {
                         val gson = Gson()
                         val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                        if (errorResponse.code == 401) {
-                            emit(UiState.NotLogged)
-                        } else {
-                            emit(UiState.Error(errorResponse.message))
-                        }
+                        emit(UiState.Error(errorResponse.info.message.errors[0].message))
                     } else {
                         emit(UiState.Error("Login Failed"))
                     }
@@ -77,10 +73,10 @@ class UserRepository(
                     if (!errorBody.isNullOrBlank()) {
                         val gson = Gson()
                         val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
-                        if (errorResponse.code == 401) {
+                        if (response.code() == 401) {
                             emit(UiState.NotLogged)
                         } else {
-                            emit(UiState.Error(errorResponse.message))
+                            emit(UiState.Error(errorResponse.info.message.errors[0].message))
                         }
                     } else {
                         emit(UiState.Error("Get Profile Failed"))
@@ -90,6 +86,9 @@ class UserRepository(
                 emit(UiState.Error(e.message.toString()))
             }
         }
+    suspend fun getToken(): String = userPreference.getUser().first().token
+    suspend fun logout() = userPreference.deleteUser()
+
 
     companion object{
         @Volatile

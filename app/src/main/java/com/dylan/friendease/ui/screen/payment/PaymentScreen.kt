@@ -177,6 +177,7 @@ fun PaymentScreen() {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_qr_scan),
+                    tint = MaterialTheme.colorScheme.primary,
                     contentDescription = "User",
                     modifier = Modifier
                         .weight(0.33f)
@@ -184,6 +185,7 @@ fun PaymentScreen() {
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_inbox_in),
+                    tint = MaterialTheme.colorScheme.primary,
                     contentDescription = "User",
                     modifier = Modifier
                         .weight(0.33f)
@@ -191,6 +193,7 @@ fun PaymentScreen() {
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_inbox_out),
+                    tint = MaterialTheme.colorScheme.primary,
                     contentDescription = "User",
                     modifier = Modifier
                         .weight(0.33f)

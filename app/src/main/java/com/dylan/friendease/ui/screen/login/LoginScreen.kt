@@ -109,6 +109,26 @@ fun LoginScreen(
             )
         }
         Spacer(modifier = Modifier.height(5.dp))
+
+        when(loginStatus){
+            is UiState.Error -> {
+                Text(
+                    text = (loginStatus as UiState.Error).errorMessage,
+                    fontFamily = roboto,
+                    style = TextStyle(
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.5.sp,
+                        lineHeight = 30.sp,
+                        fontSize = 16.sp
+                    ),
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            else -> {}
+        }
+
+        Spacer(modifier = Modifier.height(5.dp))
         Button(
             onClick = {
                 onLogin(email, password)

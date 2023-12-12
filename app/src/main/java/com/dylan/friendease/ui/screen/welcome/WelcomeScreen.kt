@@ -1,5 +1,6 @@
 package com.dylan.friendease.ui.screen.welcome
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -45,7 +48,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dylan.friendease.AppViewModel
 import com.dylan.friendease.R
+import com.dylan.friendease.data.model.UserData
+import com.dylan.friendease.ui.components.UiState
+import com.dylan.friendease.ui.screen.getViewModelFactory
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
@@ -56,8 +64,31 @@ fun WelcomeScreen(
     navigateToLogin: () -> Unit,
     navigateToRegister: () -> Unit,
     navigateToHome: () -> Unit,
+    viewModel: WelcomeViewModel = viewModel(
+        factory = getViewModelFactory(context = LocalContext.current)
+    ),
 ) {
+    val validateToken by viewModel.isHaveToken
 
+    LaunchedEffect(key1 = validateToken) {
+        Log.d("zxczxczxc", validateToken.toString())
+        viewModel.validateToken()
+    }
+    LaunchedEffect(validateToken){
+        Log.d("asdasdasd", validateToken.toString())
+        when(validateToken){
+            is UiState.Success -> {
+                val token = (validateToken as UiState.Success<Boolean>).data
+                if (token) {
+                    navigateToHome()
+                } else {
+                }
+            }
+            is UiState.NotLogged -> {}
+            else -> {}
+
+        }
+    }
     Column(
         modifier = Modifier
             .background(Color.White)

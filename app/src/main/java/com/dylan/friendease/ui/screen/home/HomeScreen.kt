@@ -46,15 +46,17 @@ import com.dylan.friendease.ui.theme.roboto
 @Composable
 fun HomeScreen(
     navigateToLogin: () -> Unit,
+    navigateToWelcome: () -> Unit,
+    navigateToDetail: (String) -> Unit,
     viewModel: HomeViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
     ) {
     val talentData by viewModel.talentData
-    LaunchedEffect(key1 = true) {
-        if (talentData is UiState.Loading){
-            viewModel.getAllTalent()
-        }
+    LaunchedEffect(talentData) {
+        if (talentData is UiState.Loading) viewModel.getAllTalent()
+        if (talentData is UiState.NotLogged) navigateToWelcome()
+        if (talentData is UiState.Error) navigateToWelcome()
     }
     Column(
         modifier = Modifier
@@ -165,15 +167,19 @@ fun HomeScreen(
             is UiState.Success -> {
                 val data = (talentData as UiState.Success).data
                 if (data != null) {
-                    TalentList(data.data)
+                    TalentList(
+                        data.data,
+                        navigateToDetail = navigateToDetail
+                    )
                 }
             }
             is UiState.Error -> {
                 Text(text = (talentData as UiState.Error).errorMessage)
             }
             is UiState.NotLogged -> {
-                navigateToLogin()
+                Text("Not Logged")
             }
+            else -> {}
         }
     }
 }
@@ -184,6 +190,8 @@ fun MenuItemPreview() {
     FriendeaseTheme {
         HomeScreen(
             navigateToLogin = {},
+            navigateToWelcome = {},
+            navigateToDetail = {}
         )
     }
 }

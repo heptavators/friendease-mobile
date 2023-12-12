@@ -2,7 +2,6 @@ package com.dylan.friendease.ui.screen.Search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,11 +21,9 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,27 +34,55 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dylan.friendease.R
+import com.dylan.friendease.ui.components.TalentList
+import com.dylan.friendease.ui.components.UiState
+import com.dylan.friendease.ui.screen.getViewModelFactory
 import com.dylan.friendease.ui.theme.FriendeaseTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 
 @Composable
 fun SearchScreen(
     navigateToLogin: () -> Unit,
-    ) {
+    navigateToWelcome: () -> Unit,
+    navigateToDetail: (String) -> Unit,
+    viewModel: SearchViewModel = viewModel(
+        factory = getViewModelFactory(context = LocalContext.current)
+    ),
+) {
+
     var searchText by remember { mutableStateOf("") }
+    val searchTextStateFlow = remember { MutableStateFlow(searchText) }
+    val talentData by viewModel.talentData
+
+    LaunchedEffect(searchText){
+        searchTextStateFlow.debounce(400).distinctUntilChanged().collect { debouncedSearchText ->
+            viewModel.getTalent(debouncedSearchText)
+        }
+    }
+
+    LaunchedEffect(talentData){
+        if (talentData is UiState.Loading) {
+            viewModel.getTalent(searchText)
+        }
+        if (talentData is UiState.NotLogged) navigateToWelcome()
+    }
+
     Column(
-    modifier = Modifier
-        .fillMaxSize()
-        .background(color = MaterialTheme.colorScheme.background)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Box(
             modifier = Modifier
@@ -111,24 +136,66 @@ fun SearchScreen(
                 onValueChange = { searchText = it }
             )
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.search),
-                    contentDescription = null,
-                    modifier = Modifier.size(240.dp),
-                )
+        when(talentData){
+            is UiState.Loading -> {
+                Text(text = "Loading")
             }
+            is UiState.Success -> {
+                val data = (talentData as UiState.Success).data
+                if (data != null) {
+                    Column {
+                        TalentList(
+                            data.data,
+                            navigateToDetail = navigateToDetail
+                        )
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.search),
+                                contentDescription = null,
+                                modifier = Modifier.size(240.dp),
+                            )
+                        }
+                    }
+                }
+            }
+            is UiState.Error -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = null,
+                            modifier = Modifier.size(240.dp),
+                        )
+                    }
+                }
+            }
+            is UiState.NotLogged -> {
+                Text("Not Logged")
+            }
+            else -> {}
         }
     }
 }
@@ -199,6 +266,8 @@ fun SearchScreenPreview(){
     FriendeaseTheme {
         SearchScreen(
             navigateToLogin = {},
-        )
+            navigateToWelcome = {},
+            navigateToDetail = {}
+            )
     }
 }

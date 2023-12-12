@@ -28,15 +28,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dylan.friendease.R
+import com.dylan.friendease.data.model.NotificationData
 import com.dylan.friendease.ui.theme.FriendeaseTheme
+import com.dylan.friendease.ui.utlis.truncateText
 
 @Composable
-fun CardNotif() {
+fun CardNotif(
+    data: NotificationData,
+    status: String,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.primary,
+                color = if(data.status == "UNREAD")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
             )
     ) {
         Column(
@@ -53,10 +58,14 @@ fun CardNotif() {
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.background, shape = CircleShape)
+                        .background(
+                            if (data.status == "UNREAD") MaterialTheme.colorScheme.background
+                            else MaterialTheme.colorScheme.primary,
+                            shape = CircleShape)
                 ){
                     Icon(
                         painter = painterResource(id = R.drawable.ic_inbox_in),
+                        tint = if (data.status == "UNREAD") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
@@ -75,15 +84,15 @@ fun CardNotif() {
                             .weight(0.6f),
                     ) {
                         Text(
-                            text = "Saldo Masuk",
-                            color = MaterialTheme.colorScheme.tertiary,
+                            text = data.title,
+                            color =  if(data.status == "READ")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                         )
 
                         Text(
-                            text = "Topup sebesar Rp100.000 berhasil!",
-                            color = MaterialTheme.colorScheme.tertiary,
+                            text = data.body.truncateText(35),
+                            color = if(data.status == "READ")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                             fontSize = 12.sp,
                         )
                     }
@@ -94,7 +103,7 @@ fun CardNotif() {
                     ) {
                         Text(
                             text = "02 Dec 2023 • 13:18",
-                            color = MaterialTheme.colorScheme.tertiary,
+                            color = if(data.status == "READ")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                             fontSize = 12.sp,
                         )
                     }
@@ -108,6 +117,6 @@ fun CardNotif() {
 @Preview
 fun MenuCardNotif(){
     FriendeaseTheme{
-        CardNotif()
+//        CardNotif()
     }
 }

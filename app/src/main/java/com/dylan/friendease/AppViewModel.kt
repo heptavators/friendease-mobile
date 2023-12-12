@@ -1,14 +1,15 @@
-package com.dylan.friendease.ui.screen.welcome
+package com.dylan.friendease
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dylan.friendease.data.model.UserResponse
 import com.dylan.friendease.data.repository.UserRepository
 import com.dylan.friendease.ui.components.UiState
 import kotlinx.coroutines.launch
 
-class WelcomeViewModel(
+class AppViewModel(
     private val userRepository: UserRepository
 ): ViewModel() {
     private val _isHaveToken: MutableState<UiState<Boolean>> = mutableStateOf(UiState.Loading)
@@ -20,5 +21,4 @@ class WelcomeViewModel(
             _isHaveToken.value = UiState.Success(userRepository.getToken().isNotEmpty())
         }
     }
-
 }

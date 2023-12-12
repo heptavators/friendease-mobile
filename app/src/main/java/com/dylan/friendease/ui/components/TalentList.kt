@@ -14,15 +14,18 @@ import com.dylan.friendease.data.model.TalentData
 fun TalentList(
     data: List<TalentData>,
     modifier: Modifier = Modifier,
+    navigateToDetail: (String) -> Unit
 ) {
-    Log.d("test", data.toString())
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
     ) {
         items(data, key = { it.talentId }) { talent ->
-            CardView(talent)
+            CardView(
+                talent,
+                navigateToDetail = {navigateToDetail(talent.talentId)}
+            )
         }
     }
 }

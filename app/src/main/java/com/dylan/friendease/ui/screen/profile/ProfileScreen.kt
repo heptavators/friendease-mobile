@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.dylan.friendease.R
 import com.dylan.friendease.data.model.UserData
 import com.dylan.friendease.ui.components.UiState
@@ -54,9 +55,12 @@ fun ProfileScreen(
     ) {
 
     val profileData by viewModel.profileData
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(profileData){
         if(profileData is UiState.Loading) viewModel.user()
+        if(profileData is UiState.NotLogged) navigateToWelcome()
+        if(profileData is UiState.Error) navigateToWelcome()
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,8 +98,8 @@ fun ProfileScreen(
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.tos),
+                            AsyncImage(
+                                model = profile.avatar,
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(72.dp)
@@ -265,7 +269,10 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                modifier = Modifier.clickable { navigateToWelcome() },
+                modifier = Modifier.clickable {
+                    viewModel.logout()
+                    navigateToWelcome()
+                },
                 text = "Logout",
                 fontFamily = roboto,
                 color = Color.Black,

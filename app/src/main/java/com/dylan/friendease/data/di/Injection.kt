@@ -4,6 +4,7 @@ import android.content.Context
 import com.dylan.friendease.data.api.ApiConfig
 import com.dylan.friendease.data.pref.UserPreference
 import com.dylan.friendease.data.pref.userDataStore
+import com.dylan.friendease.data.repository.NotificationRepository
 import com.dylan.friendease.data.repository.TalentRepository
 import com.dylan.friendease.data.repository.UserRepository
 
@@ -18,5 +19,11 @@ object Injection {
         val apiService = ApiConfig.getApiService()
         val userPref = UserPreference.getInstance(context.userDataStore)
         return TalentRepository.getInstance(apiService, userPref)
+    }
+
+    fun provideNotificationRepository(context: Context): NotificationRepository {
+        val apiService = ApiConfig.getApiService()
+        val userPref = UserPreference.getInstance(context.userDataStore)
+        return NotificationRepository.getInstance(apiService, userPref)
     }
 }

@@ -2,6 +2,7 @@ package com.dylan.friendease.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,9 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -45,11 +43,15 @@ import com.dylan.friendease.ui.utlis.truncateText
 @Composable
 fun CardView(
     data: TalentData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToDetail: () -> Unit
 ) {
     val tagExample = listOf("gamer", "traveling", "actor", "musician", "singer")
     Box(
         modifier = Modifier
+            .clickable {
+                navigateToDetail()
+            }
             .padding(5.dp)
             .fillMaxWidth()
             .shadow(2.dp, shape = RoundedCornerShape(10.dp))
@@ -75,8 +77,8 @@ fun CardView(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.tos),
+                        AsyncImage(
+                            model = data.auth.avatar,
                             contentDescription = null,
                             modifier = Modifier
                                 .size(34.dp)

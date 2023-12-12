@@ -21,11 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -37,6 +39,9 @@ import androidx.navigation.navArgument
 import com.dylan.friendease.ui.navigation.NavigationItem
 import com.dylan.friendease.ui.navigation.Screen
 import com.dylan.friendease.ui.screen.Search.SearchScreen
+import com.dylan.friendease.ui.screen.ViewModelFactory
+import com.dylan.friendease.ui.screen.detailTalent.DetailTalentScreen
+import com.dylan.friendease.ui.screen.getViewModelFactory
 import com.dylan.friendease.ui.screen.home.HomeScreen
 import com.dylan.friendease.ui.screen.login.LoginScreen
 import com.dylan.friendease.ui.screen.notification.NotificationScreen
@@ -53,9 +58,18 @@ import kotlinx.coroutines.delay
 fun App(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
+    viewModel: AppViewModel = viewModel(
+        factory = getViewModelFactory(context = LocalContext.current)
+    ),
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    val validateToken by viewModel.isHaveToken
+
+    LaunchedEffect(validateToken) {
+        viewModel.validateToken()
+    }
 
     Scaffold (
         bottomBar = {
@@ -112,11 +126,21 @@ fun App(
                 composable(Screen.Home.route) {
                     HomeScreen(
                         navigateToLogin = {
+                            navController.navigate(Screen.Login.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                        navigateToWelcome = {
                             navController.navigate(Screen.Welcome.route) {
                                 popUpTo(navController.graph.id) {
                                     inclusive = true
                                 }
                             }
+                        },
+                        navigateToDetail = { id ->
+                            navController.navigate(Screen.DetailTalent.createRoute(id))
                         },
                     )
                 }
@@ -142,18 +166,17 @@ fun App(
                         },
                     )
                 }
-
                 composable(
                     route = Screen.DetailTalent.route,
-                    arguments = listOf(navArgument("idTalent") { type = NavType.StringType }
-                    )
+                    arguments = listOf(navArgument("idTalent") { type = NavType.StringType })
                 ) { backStackEntry ->
-//                    DetailScreen(
-//                        idTalent = backStackEntry.arguments?.getString("idTalent") ?: "",
-//                        onNavigateToDetailScreen = { idTalent ->
-//                            navController.navigate(Screen.DetailTalent.createRoute(idTalent))
-//                        }
-//                    )
+                    val idTalent = backStackEntry.arguments?.getString("idTalent") ?: ""
+                    DetailTalentScreen(
+                        id = idTalent,
+                        navigateToBack = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
                 composable(Screen.Talent.route) {
 //                    FavoriteScreen()
@@ -161,15 +184,24 @@ fun App(
                 composable(Screen.Search.route) {
                     SearchScreen(
                         navigateToLogin = {
+                            navController.navigate(Screen.Login.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                        navigateToWelcome = {
                             navController.navigate(Screen.Welcome.route) {
                                 popUpTo(navController.graph.id) {
                                     inclusive = true
                                 }
                             }
                         },
+                        navigateToDetail = { id ->
+                            navController.navigate(Screen.DetailTalent.createRoute(id))
+                        },
                     )
                 }
-
                 composable(Screen.Schedule.route) {
                     ScheduleScreen(
                         navigateToLogin = {
@@ -193,17 +225,8 @@ fun App(
                     )
                 }
                 composable(Screen.Payment.route) {
-                    PaymentScreen(
-//                        navigateToLogin = {
-//                            navController.navigate(Screen.Welcome.route) {
-//                                popUpTo(navController.graph.id) {
-//                                    inclusive = true
-//                                }
-//                            }
-//                        },
-                    )
+                    PaymentScreen()
                 }
-
                 composable(Screen.Profile.route) {
                    ProfileScreen(
                         navigateToLogin = {
@@ -308,13 +331,6 @@ fun BottomBar(
                 },
                 selected = currentRoute == item.screen.route,
                 onClick = {
-//                    navController.navigate(item.screen.route) {
-//                        popUpTo(navController.graph.findStartDestination().id) {
-//                            saveState = true
-//                        }
-//                        restoreState = true
-//                        launchSingleTop = true
-//                    }
                     navigator(item.screen.route)
                 },
             )
@@ -343,14 +359,5 @@ fun SplashScreen(navController: NavController) {
             contentDescription = null,
             modifier = Modifier.size(200.dp),
         )
-//        Text(
-//            text = "FriendEase",
-//            fontSize = 50.sp,
-//            fontFamily = roboto,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier,
-//            color = MaterialTheme.colorScheme.tertiary,
-////            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-//        )
     }
 }
