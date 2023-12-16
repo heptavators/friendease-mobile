@@ -1,17 +1,18 @@
-package com.dylan.friendease.ui.screen.register
+package com.dylan.friendease.ui.screen.register2
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
@@ -24,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,18 +36,14 @@ import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
 
 @Composable
-fun Register2Screen(
-    modifier: Modifier = Modifier,
-    navigateToLogin: () -> Unit,
-    navigateToHome: () -> Unit,
+fun TanggalLahir(
+    modifier: Modifier = Modifier
 ) {
-
-    val progress by remember { mutableStateOf(0.1f) }
-
+    val progress by remember { mutableStateOf(0.3f) }
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxSize()
-    ) {
+    ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -62,19 +58,13 @@ fun Register2Screen(
                     .fillMaxWidth()
                     .height(8.dp)
             )
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 50.dp),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = null,
-                    Modifier.size(60.dp)
-                )
+                    .padding(top = 15.dp),
+            ){
                 Text(
-                    text = "Selamat datang di FriendEase",
+                    text = "Tanggal lahir kamu?",
                     fontFamily = roboto,
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = TextStyle(
@@ -85,55 +75,6 @@ fun Register2Screen(
                     fontSize = 32.sp,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                Text(
-                    text = "Baca peraturan yuk",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
-                Text(
-                    text = "Jujur Yok",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 20.dp)
-                )
-                Text(
-                    text = "Foto dan bio kamu harus benar-benar menggambarkan dirimu ya.",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        lineHeight = 17.5.sp
-                    ),
-                    fontSize = 15.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
-                Text(
-                    text = "Let's have fun",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        lineHeight = 23.sp
-                    ),
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 20.dp)
-                )
-                Text(
-                    text = "Ciptakan suasana menyenangkan dengan menjaga informasi pribadi! Berteman Dengan Aman.",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        lineHeight = 17.sp
-                    ),
-                    fontSize = 15.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
-
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -147,10 +88,35 @@ fun Register2Screen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.tos),
+                            painter = painterResource(id = R.drawable.tanggal_lahir),
                             contentDescription = null,
-                            modifier = Modifier.size(240.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(212.dp),
                         )
+                        Spacer(modifier = Modifier.height(25.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .border(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.primary,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .background(
+                                    color = MaterialTheme.colorScheme.background,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .padding(4.dp)
+                        ) {
+                            Column {
+                                Text(
+                                    text = "Umur kamu bakalan tampil di profilmu.\n",
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(100.dp))
                         Button(
                             onClick = {
                             },
@@ -159,7 +125,7 @@ fun Register2Screen(
                                 .fillMaxWidth()
                         ) {
                             Text(
-                                text = "Saya setuju",
+                                text = "Berikutnya",
                                 fontSize = 23.sp,
                                 color = MaterialTheme.colorScheme.tertiary,
                             )
@@ -169,17 +135,12 @@ fun Register2Screen(
             }
         }
     }
-
-//    navigateToLogin()
 }
 
 @Preview
 @Composable
-fun RegisterScreenPreview() {
+fun TempatLahirScreenPreview() {
     FriendeaseTheme {
-        Register2Screen(
-            navigateToLogin = {},
-            navigateToHome = {}
-        )
+        TanggalLahir()
     }
 }

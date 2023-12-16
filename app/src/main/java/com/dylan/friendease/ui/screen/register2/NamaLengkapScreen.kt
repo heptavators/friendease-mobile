@@ -1,17 +1,19 @@
-package com.dylan.friendease.ui.screen.register
+package com.dylan.friendease.ui.screen.register2
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
@@ -22,9 +24,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,22 +35,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dylan.friendease.R
+import com.dylan.friendease.ui.components.CustomInput
+import com.dylan.friendease.ui.screen.register.Register2Screen
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
 
 @Composable
-fun Register2Screen(
+fun NamaLengkapScreen(
     modifier: Modifier = Modifier,
-    navigateToLogin: () -> Unit,
-    navigateToHome: () -> Unit,
 ) {
-
-    val progress by remember { mutableStateOf(0.1f) }
-
+    val progress by remember { mutableStateOf(0.2f) }
+    var namaLengkapText by remember {
+        mutableStateOf("")
+    }
+    var usernameText by remember {
+        mutableStateOf("")
+    }
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxSize()
-    ) {
+    ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -62,19 +69,13 @@ fun Register2Screen(
                     .fillMaxWidth()
                     .height(8.dp)
             )
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 50.dp),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = null,
-                    Modifier.size(60.dp)
-                )
+                    .padding(top = 15.dp),
+            ){
                 Text(
-                    text = "Selamat datang di FriendEase",
+                    text = "Nama lengkap kamu?",
                     fontFamily = roboto,
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = TextStyle(
@@ -85,55 +86,30 @@ fun Register2Screen(
                     fontSize = 32.sp,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                Text(
-                    text = "Baca peraturan yuk",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(top = 10.dp)
+                Spacer(modifier = Modifier.height(15.dp))
+                CustomInput(
+                    name = "Archie Stark",
+                    initialText = namaLengkapText,
+                    onValueChange = { namaLengkapText = it }
                 )
                 Text(
-                    text = "Jujur Yok",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 20.dp)
-                )
-                Text(
-                    text = "Foto dan bio kamu harus benar-benar menggambarkan dirimu ya.",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        lineHeight = 17.5.sp
-                    ),
-                    fontSize = 15.sp,
-                    modifier = Modifier.padding(top = 5.dp)
-                )
-                Text(
-                    text = "Let's have fun",
+                    text = "Nama lengkap kamu?",
                     fontFamily = roboto,
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
-                        lineHeight = 23.sp
+                        letterSpacing = 0.5.sp,
+                        lineHeight = 37.5.sp
                     ),
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 20.dp)
+                    fontSize = 32.sp,
+                    modifier = Modifier.padding(top = 16.dp)
                 )
-                Text(
-                    text = "Ciptakan suasana menyenangkan dengan menjaga informasi pribadi! Berteman Dengan Aman.",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        lineHeight = 17.sp
-                    ),
-                    fontSize = 15.sp,
-                    modifier = Modifier.padding(top = 5.dp)
+                Spacer(modifier = Modifier.height(15.dp))
+                CustomInput(
+                    name = "Roger Sumatra",
+                    initialText = usernameText,
+                    onValueChange = { usernameText = it }
                 )
-
                 Box(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -147,10 +123,40 @@ fun Register2Screen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.tos),
+                            painter = painterResource(id = R.drawable.namalengkap),
                             contentDescription = null,
-                            modifier = Modifier.size(240.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(212.dp),
                         )
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .border(
+                                    1.dp,
+                                    MaterialTheme.colorScheme.primary,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .background(
+                                    color = MaterialTheme.colorScheme.background,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .padding(8.dp)
+                        ) {
+                            Column {
+                                Text(
+                                    text = "Nama lengkap dan username kamu akan tampil di profilmu. Isi dengan benar ya!",
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                                Text(
+                                    text = "Nama lengkapmu nantinya gak bisa diubah loh!",
+                                    color = Color.Black,
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(25.dp))
                         Button(
                             onClick = {
                             },
@@ -159,7 +165,7 @@ fun Register2Screen(
                                 .fillMaxWidth()
                         ) {
                             Text(
-                                text = "Saya setuju",
+                                text = "Berikutnya",
                                 fontSize = 23.sp,
                                 color = MaterialTheme.colorScheme.tertiary,
                             )
@@ -169,17 +175,12 @@ fun Register2Screen(
             }
         }
     }
-
-//    navigateToLogin()
 }
 
 @Preview
 @Composable
-fun RegisterScreenPreview() {
+fun NamaLengkapScreenPreview() {
     FriendeaseTheme {
-        Register2Screen(
-            navigateToLogin = {},
-            navigateToHome = {}
-        )
+        NamaLengkapScreen()
     }
 }
