@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -99,9 +100,17 @@ fun ScheduleScreen(
                     ) {
                         this.items(30) { index ->
                             CardSchedule()
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 12.dp)
+                                    .align(Alignment.CenterHorizontally),
+                                color = Color.Gray,
+                                thickness = 1.dp
+                            )
                             Spacer(
                                 modifier = Modifier
-                                    .height(2.dp)
+                                    .height(4.dp)
                             )
                         }
                     }
@@ -112,11 +121,19 @@ fun ScheduleScreen(
                             .fillMaxSize()
                             .padding(bottom = 10.dp, top = 3.dp)
                     ) {
-                        this.items(10) { index ->
+                        this.items(3) { index ->
                             CardSchedule()
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 12.dp)
+                                    .align(Alignment.CenterHorizontally),
+                                color = Color.Gray,
+                                thickness = 1.dp
+                            )
                             Spacer(
                                 modifier = Modifier
-                                    .height(2.dp)
+                                    .height(4.dp)
                             )
                         }
                     }

@@ -48,8 +48,6 @@ fun NotificationScreen(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
     ) {
-    var tabIndex by remember { mutableStateOf(0) }
-    val tabs = listOf("Belum Dibaca", "Sudah Dibaca")
 
     val notificationData by viewModel.notificationData
     LaunchedEffect(key1 = true) {
@@ -94,67 +92,28 @@ fun NotificationScreen(
         Column(modifier = Modifier
             .fillMaxWidth()
         ) {
-            TabRow(selectedTabIndex = tabIndex, modifier = Modifier.border(0.dp, Color.Transparent)) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        text = { Text(title, color = MaterialTheme.colorScheme.onPrimary) },
-                        selected = tabIndex == index,
-                        onClick = { tabIndex = index },
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.background)
-                            .border(0.dp, Color.Transparent)
-                    )
-                }
+                when(notificationData){
+                    is UiState.Loading -> {
+                        Text(text = "Loading")
+                    }
+                    is UiState.Success -> {
+                        val data = (notificationData as UiState.Success).data
+                        if (data != null) {
+                            NotificationList(
+                                data = data.data,
+                                status = "unread"
+                            )
+                        }
+                    }
+                    is UiState.Error -> {
+                        Text(text = "Error")
+                    }
+                    is UiState.NotLogged -> {
+                        navigateToLogin()
+                    }
             }
-            when (tabIndex) {
-                0 -> {
-                    when(notificationData){
-                        is UiState.Loading -> {
-                            Text(text = "Loading")
-                        }
-                        is UiState.Success -> {
-                            val data = (notificationData as UiState.Success).data
-                            if (data != null) {
-                                NotificationList(
-                                    data = data.data,
-                                    status = "unread"
-                                )
-                            }
-                        }
-                        is UiState.Error -> {
-                            Text(text = "Error")
-                        }
-                        is UiState.NotLogged -> {
-                            navigateToLogin()
-                        }
-                    }
-                }
-                1 -> {
-                    when(notificationData){
-                        is UiState.Loading -> {
-                            Text(text = "Loading")
-                        }
-                        is UiState.Success -> {
-                            val data = (notificationData as UiState.Success).data
-                            if (data != null) {
-                                NotificationList(
-                                    data = data.data,
-                                    status = "read",
-                                )
-                            }
-                        }
-                        is UiState.Error -> {
-                            Text(text = "Error")
-                        }
-                        is UiState.NotLogged -> {
-                            navigateToLogin()
-                        }
-                    }
-                }
             }
         }
-
-    }
 }
 
 

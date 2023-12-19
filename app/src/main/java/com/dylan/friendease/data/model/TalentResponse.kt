@@ -17,7 +17,7 @@ data class TalentData(
     @SerializedName("verified_status")
     val verifiedStatus: String,
     @SerializedName("rating")
-    val rating: Int?,
+    val rating: Float?,
     @SerializedName("LocationTalent")
     val location: LocationTalent,
     @SerializedName("auth")

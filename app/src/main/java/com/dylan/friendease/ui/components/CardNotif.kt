@@ -41,7 +41,7 @@ fun CardNotif(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = if(data.status == "UNREAD")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
+                color = if(data.status == "unread")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
             )
     ) {
         Column(
@@ -59,13 +59,13 @@ fun CardNotif(
                         .size(40.dp)
                         .clip(CircleShape)
                         .background(
-                            if (data.status == "UNREAD") MaterialTheme.colorScheme.background
+                            if (data.status == "unread") MaterialTheme.colorScheme.background
                             else MaterialTheme.colorScheme.primary,
                             shape = CircleShape)
                 ){
                     Icon(
                         painter = painterResource(id = R.drawable.ic_inbox_in),
-                        tint = if (data.status == "UNREAD") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
+                        tint = if (data.status == "unread") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
@@ -85,14 +85,14 @@ fun CardNotif(
                     ) {
                         Text(
                             text = data.title,
-                            color =  if(data.status == "READ")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
+                            color =  if(data.status == "read")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                         )
 
                         Text(
                             text = data.body.truncateText(35),
-                            color = if(data.status == "READ")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
+                            color = if(data.status == "read")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                             fontSize = 12.sp,
                         )
                     }
@@ -103,7 +103,7 @@ fun CardNotif(
                     ) {
                         Text(
                             text = "02 Dec 2023 • 13:18",
-                            color = if(data.status == "READ")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
+                            color = if(data.status == "read")MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
                             fontSize = 12.sp,
                         )
                     }

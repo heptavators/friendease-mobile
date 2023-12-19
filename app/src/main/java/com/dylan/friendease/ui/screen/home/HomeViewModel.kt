@@ -15,7 +15,7 @@ class HomeViewModel(
     val talentData: State<UiState<TalentResponse>> get() = _talentData
 
     fun getAllTalent() {
-        talentRepository.getTalent().observeForever {
+        talentRepository.getAllTalent().observeForever {
             when (it) {
                 is UiState.Loading -> _talentData.value = UiState.Loading
                 is UiState.Success -> _talentData.value = UiState.Success(it.data)

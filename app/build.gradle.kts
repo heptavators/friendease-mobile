@@ -90,4 +90,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.2")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.20.0")
+    implementation("com.google.accompanist:accompanist-pager:0.22.0-rc")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+
+
 }

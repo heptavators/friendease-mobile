@@ -53,10 +53,10 @@ fun HomeScreen(
     ),
     ) {
     val talentData by viewModel.talentData
+
     LaunchedEffect(talentData) {
         if (talentData is UiState.Loading) viewModel.getAllTalent()
         if (talentData is UiState.NotLogged) navigateToWelcome()
-        if (talentData is UiState.Error) navigateToWelcome()
     }
     Column(
         modifier = Modifier
@@ -163,20 +163,22 @@ fun HomeScreen(
         when(talentData){
             is UiState.Loading -> {
                 Text(text = "Loading")
+                Log.d("TalentList", "loading")
             }
             is UiState.Success -> {
                 val data = (talentData as UiState.Success).data
-                if (data != null) {
-                    TalentList(
-                        data.data,
-                        navigateToDetail = navigateToDetail
-                    )
-                }
+                Log.d("TalentList", "TalentList: $data")
+                TalentList(
+                    data.data,
+                    navigateToDetail = navigateToDetail
+                )
             }
             is UiState.Error -> {
+                Log.d("TalentList", (talentData as UiState.Error).errorMessage)
                 Text(text = (talentData as UiState.Error).errorMessage)
             }
             is UiState.NotLogged -> {
+                Log.d("TalentList", "notLogged")
                 Text("Not Logged")
             }
             else -> {}

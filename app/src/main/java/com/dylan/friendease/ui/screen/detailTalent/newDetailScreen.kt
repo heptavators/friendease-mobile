@@ -46,6 +46,7 @@ fun DetailScreen(onBackPressed: () -> Unit) {
             .background(color = Color.White)
             .padding(16.dp)
     ) {
+
         Image(
             painter = painterResource(id = R.drawable.slider),
             contentDescription = "Fujikawa Chiai",

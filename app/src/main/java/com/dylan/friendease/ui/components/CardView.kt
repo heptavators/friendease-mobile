@@ -130,6 +130,7 @@ fun CardView(
                         Spacer(modifier = Modifier.width(8.dp))
                         Tag(text = "Aktor", color = Color(0xFFE5A8BF))
                     }
+                    Spacer(modifier = Modifier.height(10.dp))
                     Row(
                         modifier = Modifier,
                         horizontalArrangement = Arrangement.Center,
@@ -169,6 +170,7 @@ fun CardView(
                                     contentDescription = highlight.highlightURL,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
+                                        .fillMaxWidth()
                                         .graphicsLayer(alpha = alphaValue)
                                 )
                             }

@@ -18,13 +18,47 @@ class TalentRepository(
     private val userPreference: UserPreference,
     ) {
 
+    fun getAllTalent(): LiveData<UiState<TalentResponse>> = liveData(Dispatchers.IO) {
+        emit(UiState.Loading)
+        try {
+            val token = runBlocking {
+                userPreference.getUser().first().token
+            }
+            val response = apiService.getAllTalent("Bearer ${token}")
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    emit(UiState.Success(body))
+                } else {
+                    emit(UiState.Error("Get Talent Failed"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (!errorBody.isNullOrBlank()) {
+                    val gson = Gson()
+                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+                    if (response.code() == 401){
+                        userPreference.deleteUser()
+                        emit(UiState.NotLogged)
+                    } else {
+                        emit(UiState.Error(errorResponse.info.message.errors[0].message))
+                    }
+                } else {
+                    emit(UiState.Error("Get Talent Failed"))
+                }
+            }
+        } catch (e: Exception) {
+            emit(UiState.Error(e.message.toString()))
+        }
+    }
+
     fun getTalent(fullname: String = ""): LiveData<UiState<TalentResponse>> = liveData(Dispatchers.IO) {
             emit(UiState.Loading)
             try {
                 val token = runBlocking {
                     userPreference.getUser().first().token
                 }
-                val response = apiService.getAllTalent("Bearer ${token}", fullname)
+                val response = apiService.getTalent("Bearer ${token}", fullname)
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {

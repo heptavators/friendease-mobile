@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,12 +43,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.dylan.friendease.R
 import com.dylan.friendease.data.model.DetailTalentData
-import com.dylan.friendease.data.model.TalentData
-import com.dylan.friendease.data.model.UserData
 import com.dylan.friendease.ui.components.UiState
 import com.dylan.friendease.ui.screen.getViewModelFactory
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
+import com.dylan.friendease.ui.utlis.formatDateString
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
+
 
 @Composable
 fun DetailTalentScreen(
@@ -57,7 +59,10 @@ fun DetailTalentScreen(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
 ) {
+    val scrollState = rememberScrollState()
     val talentData by viewModel.talentData
+
+
     LaunchedEffect(talentData) {
         if (talentData is UiState.Loading) viewModel.getTalentById(id)
     }
@@ -65,9 +70,10 @@ fun DetailTalentScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .fillMaxWidth()
+            .verticalScroll(state = scrollState)
             .background(color = Color.White)
             .padding(16.dp)
-            .verticalScroll(rememberScrollState())
     ) {
         Row(
             modifier = Modifier
@@ -89,35 +95,23 @@ fun DetailTalentScreen(
                 )
             }
         }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp))
-                .background(MaterialTheme.colorScheme.background),
-            horizontalArrangement = Arrangement.Center
-
-        ) {
-            when(talentData) {
-                is UiState.Loading -> {
-                    Text(text = "Loading")
-                }
-                is UiState.Success -> {
-                    val talentData = (talentData as UiState.Success<DetailTalentData>).data
-                    AsyncImage(
-                        model = talentData.highlight.first().highlightURL,
-                        contentDescription = "Fujikawa Chiai",
-                        modifier = Modifier
-//                            .size(200.dp)
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(Color.Gray)
-                    )
-                }
-                else -> {}
+        when(talentData) {
+            is UiState.Loading -> {
+                Text(text = "Loading")
             }
+            is UiState.Success -> {
+                val talentData = (talentData as UiState.Success<DetailTalentData>).data
+                AsyncImage(
+                    model = talentData.auth.avatar,
+                    contentDescription = talentData.auth.username,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp)
+                )
+            }
+            else -> {}
         }
         Spacer(modifier = Modifier.height(20.dp))
-
         when(talentData){
             is UiState.Loading -> {
                 Text(text = "Loading")
@@ -134,15 +128,151 @@ fun DetailTalentScreen(
                         .padding(top = 8.dp)
                 )
                 Spacer(modifier = Modifier.height(15.dp))
-                Text(
-                    text = "Pengajar, Suka Musik, Suka Membaca",
-                    fontFamily = roboto,
-                    fontSize = 16.sp,
-                    color = Color.Gray,
-                    modifier = Modifier
-                        .padding(top = 4.dp)
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = RoundedCornerShape(15.dp)
+                            )
+                            .padding(4.dp)
+                    ) {
+                        Text(
+                            text = "Wibu",
+                            fontFamily = roboto,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            color = Color.Black,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = RoundedCornerShape(15.dp)
+                            )
+                            .padding(4.dp)
+                    ) {
+                        Text(
+                            text = "Suka Musik",
+                            fontFamily = roboto,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = RoundedCornerShape(15.dp)
+                            )
+                            .padding(4.dp)
+                    ) {
+                        Text(
+                            text = "Cosplayer",
+                            fontFamily = roboto,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            color = Color.Black,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.height(15.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star",
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star",
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star",
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star",
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Star",
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Column {
+                        Divider(
+                            modifier = Modifier
+                                .height(5.dp)
+                                .width(1.dp),
+                            color = Color.Gray
+                        )
+                        Text(
+                            text = "5",
+                            fontFamily = roboto,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+//            Divider(
+//                modifier = Modifier
+//                    .width(1.dp)
+//                    .height(8.dp)
+//            )
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Row {
+                        Text(
+                            text = "220",
+                            fontFamily = roboto,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Kegiatan",
+                            fontFamily = roboto,
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
                 Divider(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -150,96 +280,199 @@ fun DetailTalentScreen(
                         .padding(vertical = 8.dp),
                     color = Color.Gray
                 )
+
                 Text(
-                    text = talentData.auth.bio,
+                    text = "Deskripsi",
                     fontFamily = roboto,
                     fontSize = 20.sp,
-                    color = Color.Gray,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                         .padding(top = 8.dp)
                 )
-            }
-            else -> {}
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .width(4.dp)
-                .padding(vertical = 8.dp),
-            color = Color.Gray
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "Teks Komentar",
-            fontFamily = roboto,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .padding(top = 16.dp)
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.tos),
-                    contentDescription = "User",
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Column {
                 Text(
-                    text = "Nama Pengguna",
+                    text = "Saya adalah wibu sejati, watashi wibu desu yo, watashi anime daisuki desu, anime favorit watashi sousou no frieren desu, semoga kita bisa menjadi tomodachi desu.",
                     fontFamily = roboto,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    fontSize = 15.sp,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    style = TextStyle(
+                        lineHeight = 17.5.sp
+                    ),
+                    modifier = Modifier
+                        .padding(top = 5.dp)
                 )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(
+                Text(
+                    text = "Penilaian Talent",
+                    fontFamily = roboto,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                )
+                Row (
+                    modifier = Modifier
+                        .padding(top = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
+                ){
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = "Star",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = Color.Yellow,
                         modifier = Modifier.size(16.dp)
                     )
-
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Star",
+                        tint = Color.Yellow,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Star",
+                        tint = Color.Yellow,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Star",
+                        tint = Color.Yellow,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "Star",
+                        tint = Color.Yellow,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "4.5",
+                        text = "${talentData.talent.rating}/5",
                         fontFamily = roboto,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
                     )
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Text(
+                        text = "(96 Ulasan)",
+                        fontFamily = roboto,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Gray
+                    )
+
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.tos),
+                            contentDescription = "User",
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column {
+                        Text(
+                            text = "@farhan_kebab",
+                            fontFamily = roboto,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = Color.Yellow,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = Color.Yellow,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = Color.Yellow,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = Color.Yellow,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = Color.Yellow,
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Kak fuji asik",
+                            fontFamily = roboto,
+                            fontSize = 14.sp,
+                            color = Color.Black
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.tos),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(80.dp, 100.dp)
+                                    .clip(RoundedCornerShape(4.dp))
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+
+//                            Image(
+//                                painter = painterResource(id = R.drawable.tos),
+//                                contentDescription = null,
+//                                modifier = Modifier
+//                                    .size(80.dp, 100.dp)
+//                                    .clip(RoundedCornerShape(4.dp))
+//                            )
+//                            Spacer(modifier = Modifier.width(8.dp))
+//                            Image(
+//                                painter = painterResource(id = R.drawable.tos),
+//                                contentDescription = null,
+//                                modifier = Modifier
+//                                    .size(80.dp, 100.dp)
+//                                    .clip(RoundedCornerShape(4.dp))
+//                            )
+                        }
+                    }
                 }
             }
+            else -> {}
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Komentar pengguna akan ditampilkan di sini...",
-            fontFamily = roboto,
-            fontSize = 14.sp,
-            color = Color.Gray
-        )
     }
 }
+
 
 @Composable
 @Preview(showBackground = true)

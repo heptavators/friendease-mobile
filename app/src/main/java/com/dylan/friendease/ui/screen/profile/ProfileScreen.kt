@@ -57,8 +57,6 @@ fun ProfileScreen(
     val profileData by viewModel.profileData
     LaunchedEffect(profileData){
         if(profileData is UiState.Loading) viewModel.user()
-        if(profileData is UiState.NotLogged) navigateToWelcome()
-        if(profileData is UiState.Error) navigateToWelcome()
     }
 
     Column(
@@ -150,7 +148,7 @@ fun ProfileScreen(
                         )
                     }
                     is UiState.NotLogged -> {
-                        navigateToWelcome()
+//                        navigateToWelcome()
                     }
                     else -> {}
                 }

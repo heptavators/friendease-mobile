@@ -1,6 +1,8 @@
 package com.dylan.friendease.ui.utlis
 
 import com.dylan.friendease.ui.navigation.Screen
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 fun String.truncateText(maxLength: Int = 80): String {
     return if (this.length <= maxLength) {
@@ -8,6 +10,14 @@ fun String.truncateText(maxLength: Int = 80): String {
     } else {
         this.substring(0, maxLength - 3) + "..."
     }
+}
+
+fun formatDateString(inputDateString: String, outputFormat: String): String {
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val outputFormatter = DateTimeFormatter.ofPattern(outputFormat)
+
+    val date = LocalDate.parse(inputDateString, inputFormatter)
+    return date.format(outputFormatter)
 }
 
 fun String?.showBottomBar(): Boolean {

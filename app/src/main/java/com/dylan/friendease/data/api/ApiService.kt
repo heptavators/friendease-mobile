@@ -33,6 +33,12 @@ interface ApiService {
     @GET("talent")
     suspend fun getAllTalent(
         @Header("Authorization") token: String,
+    ): Response<TalentResponse>
+
+    @Headers("Content-Type: application/json")
+    @GET("talent")
+    suspend fun getTalent(
+        @Header("Authorization") token: String,
         @Query("fullname") fullname: String,
     ): Response<TalentResponse>
 
