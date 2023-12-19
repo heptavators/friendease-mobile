@@ -165,25 +165,39 @@ fun ScanWajahScreen(
                         fontSize = 16.sp,
                     )
                 }
-
                 Button(
-                    onClick = {},
+                    onClick = {
+                    },
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(top = 16.dp)
                         .height(48.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(8.dp)
-                        )
+                        .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Ambil Foto KTP",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 8.dp)
+                        text = "Scan Wajah",
+                        fontSize = 23.sp,
+                        color = MaterialTheme.colorScheme.tertiary,
                     )
                 }
+
+//                Button(
+//                    onClick = {},
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(top = 16.dp)
+//                        .height(48.dp)
+//                        .background(
+//                            color = MaterialTheme.colorScheme.primary,
+//                            shape = RoundedCornerShape(8.dp)
+//                        )
+//                ) {
+//                    Text(
+//                        text = "Ambil Foto KTP",
+//                        color = Color.White,
+//                        fontSize = 16.sp,
+//                        modifier = Modifier.padding(start = 8.dp)
+//                    )
+//                }
             }
         }
     }

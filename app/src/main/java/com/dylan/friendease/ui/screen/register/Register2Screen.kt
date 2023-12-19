@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,9 +26,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -124,15 +130,39 @@ fun Register2Screen(
                     modifier = Modifier.padding(top = 20.dp)
                 )
                 Text(
-                    text = "Ciptakan suasana menyenangkan dengan menjaga informasi pribadi! Berteman Dengan Aman.",
-                    fontFamily = roboto,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = TextStyle(
-                        lineHeight = 17.sp
-                    ),
-                    fontSize = 15.sp,
+                    buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                fontFamily = roboto,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                fontSize = 15.sp,
+                            )
+                        ) {
+                            append("Ciptakan suasana menyenangkan dengan menjaga informasi pribadi!.")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                fontFamily = roboto,
+                                color = Color(0xFF2078D1),
+                                fontSize = 15.sp,
+                                textDecoration = TextDecoration.Underline
+                            )
+                        ) {
+                            append("Berteman Dengan Aman")
+                        }
+                    },
                     modifier = Modifier.padding(top = 5.dp)
                 )
+//                Text(
+//                    text = "Ciptakan suasana menyenangkan dengan menjaga informasi pribadi! Berteman Dengan Aman.",
+//                    fontFamily = roboto,
+//                    color = MaterialTheme.colorScheme.onPrimary,
+//                    style = TextStyle(
+//                        lineHeight = 17.sp
+//                    ),
+//                    fontSize = 15.sp,
+//                    modifier = Modifier.padding(top = 5.dp)
+//                )
 
                 Box(
                     modifier = Modifier
@@ -149,13 +179,15 @@ fun Register2Screen(
                         Image(
                             painter = painterResource(id = R.drawable.tos),
                             contentDescription = null,
-                            modifier = Modifier.size(240.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(280.dp),
                         )
                         Button(
                             onClick = {
                             },
                             modifier = Modifier
-                                .padding(top = 16.dp)
+                                .padding(top = 40.dp)
                                 .fillMaxWidth()
                         ) {
                             Text(

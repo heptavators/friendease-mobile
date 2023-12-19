@@ -134,7 +134,7 @@ fun AddFotoScreen (
                                 modifier = Modifier.size(40.dp)
                             )
                         }
-                        Spacer(modifier = Modifier.height(25.dp))
+                        Spacer(modifier = Modifier.height(200.dp))
                         Button(
                             onClick = {
                             },

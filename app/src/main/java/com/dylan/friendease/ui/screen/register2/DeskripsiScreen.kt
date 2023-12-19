@@ -114,13 +114,13 @@ fun DeskripsiScreen(
                             initialText = deskripsiTeks,
                             onValueChange = { deskripsiTeks = it }
                         )
-                        Spacer(modifier = Modifier.height(15.dp))
+                        Spacer(modifier = Modifier.height(35.dp))
                         Image(
                             painter = painterResource(id = R.drawable.user_preferences),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(212.dp),
+                                .height(216.dp),
                         )
                         Spacer(modifier = Modifier.height(25.dp))
                         Button(
@@ -154,7 +154,7 @@ fun CustomInputDeskripsi(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .height(266.dp),
+            .height(320.dp),
         value = inputValue,
         onValueChange = {
             inputValue = it
@@ -164,7 +164,7 @@ fun CustomInputDeskripsi(
             Text(text = name)
         },
         placeholder = { Text(text = "Type here") },
-        shape = RoundedCornerShape(percent = 10),
+        shape = RoundedCornerShape(percent = 7),
         keyboardOptions = KeyboardOptions.Default,
     )
 }

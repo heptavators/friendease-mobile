@@ -29,8 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -93,7 +97,7 @@ fun NamaLengkapScreen(
                     onValueChange = { namaLengkapText = it }
                 )
                 Text(
-                    text = "Nama lengkap kamu?",
+                    text = "Username kamu?",
                     fontFamily = roboto,
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = TextStyle(
@@ -145,18 +149,45 @@ fun NamaLengkapScreen(
                                 )
                                 .padding(8.dp)
                         ) {
-                            Column {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
                                 Text(
-                                    text = "Nama lengkap dan username kamu akan tampil di profilmu. Isi dengan benar ya!",
-                                    color = MaterialTheme.colorScheme.primary,
+                                    buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                fontFamily = roboto,
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                fontSize = 15.sp,
+                                            )
+                                        ) {
+                                            append("Nama lengkap dan username kamu akan tampil di profilmu. Isi dengan benar ya!")
+                                        }
+                                        withStyle(
+                                            style = SpanStyle(
+                                                fontFamily = roboto,
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                fontSize = 15.sp,
+                                                fontWeight = FontWeight.Bold,
+                                            )
+                                        ) {
+                                            append("Nama lengkapmu nantinya gak bisa diubah loh!")
+                                        }
+                                    },
+                                    modifier = Modifier.padding(top = 5.dp)
                                 )
-                                Text(
-                                    text = "Nama lengkapmu nantinya gak bisa diubah loh!",
-                                    color = Color.Black,
-                                )
+//                                Text(
+//                                    text = "Nama lengkap dan username kamu akan tampil di profilmu. Isi dengan benar ya!",
+//                                    color = MaterialTheme.colorScheme.primary,
+//                                )
+//                                Text(
+//                                    text = "Nama lengkapmu nantinya gak bisa diubah loh!",
+//                                    color = Color.Black,
+//                                )
                             }
                         }
-                        Spacer(modifier = Modifier.height(25.dp))
+                        Spacer(modifier = Modifier.height(70.dp))
                         Button(
                             onClick = {
                             },

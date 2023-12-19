@@ -1,5 +1,6 @@
 package com.dylan.friendease.ui.screen.register2
 
+import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -135,9 +136,9 @@ fun TempatTinggal(
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(212.dp),
+                                .height(296.dp),
                         )
-                        Spacer(modifier = Modifier.height(15.dp))
+                        Spacer(modifier = Modifier.height(5.dp))
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -158,7 +159,7 @@ fun TempatTinggal(
                                     color = MaterialTheme.colorScheme.onPrimary,
                                 )
                         }
-                        Spacer(modifier = Modifier.height(25.dp))
+                        Spacer(modifier = Modifier.height(15.dp))
                         Button(
                             onClick = {
                             },
@@ -209,7 +210,7 @@ fun ExposedDropdownMenu() {
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 }
-                .background(Color.White, shape = RoundedCornerShape(8.dp)),
+                .background(Color.White, shape = RoundedCornerShape(16.dp)),
             label = {
                 Text(text = "Pilih Provinsi", color = Color.Gray)
             },
@@ -220,7 +221,8 @@ fun ExposedDropdownMenu() {
                     tint = Color.Gray,
                     modifier = Modifier.clickable { expanded = !expanded }
                 )
-            }
+            },
+            shape = RoundedCornerShape(percent = 40),
         )
         DropdownMenu(
             expanded = expanded,
@@ -279,7 +281,7 @@ fun ExposedDropdownKotaMenu() {
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 }
-                .background(Color.White, shape = RoundedCornerShape(8.dp)),
+                .background(Color.White, shape = RoundedCornerShape(16.dp)),
             label = {
                 Text(text = "Pilih Kota / Kabupaten", color = Color.Gray)
             },
@@ -290,7 +292,8 @@ fun ExposedDropdownKotaMenu() {
                     tint = Color.Gray,
                     modifier = Modifier.clickable { expanded = !expanded }
                 )
-            }
+            },
+            shape = RoundedCornerShape(percent = 40),
         )
         DropdownMenu(
             expanded = expanded,

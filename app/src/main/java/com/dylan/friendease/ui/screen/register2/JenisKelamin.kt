@@ -94,7 +94,8 @@ fun JenisKelamin (
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background),
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(top = 50.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
@@ -109,29 +110,9 @@ fun JenisKelamin (
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(212.dp),
+                                .height(360.dp),
                         )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.primary,
-                                    shape = RoundedCornerShape(8.dp)
-                                )
-                                .background(
-                                    color = MaterialTheme.colorScheme.background,
-                                    shape = RoundedCornerShape(8.dp)
-                                )
-                                .padding(8.dp)
-                        ) {
-                            Text(
-                                text = "Bagikan lokasimu untuk tingkatkan kecocokan !",
-                                color = MaterialTheme.colorScheme.onPrimary,
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(25.dp))
+                        Spacer(modifier = Modifier.height(180.dp))
                         Button(
                             onClick = {
                             },
@@ -182,9 +163,9 @@ fun ExposedDropdownJenisKelaminMenu() {
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 }
-                .background(Color.White, shape = RoundedCornerShape(8.dp)),
+                .background(Color.White, shape = RoundedCornerShape(16.dp)),
             label = {
-                Text(text = "Pilih Kota / Kabupaten", color = Color.Gray)
+                Text(text = "Jenis Kelamin", color = Color.Gray)
             },
             trailingIcon = {
                 Icon(
@@ -193,7 +174,8 @@ fun ExposedDropdownJenisKelaminMenu() {
                     tint = Color.Gray,
                     modifier = Modifier.clickable { expanded = !expanded }
                 )
-            }
+            },
+            shape = RoundedCornerShape(percent = 40),
         )
         DropdownMenu(
             expanded = expanded,

@@ -164,17 +164,26 @@ fun NextButton(
 ) {
     val buttonAlpha = if (isEnabled) 1f else 0.5f
 
+
     Button(
-        onClick = onClick,
+        onClick = {
+        },
         modifier = Modifier
-            .fillMaxWidth()
             .padding(top = 16.dp)
-            .background(
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(4.dp)
-            )
+            .fillMaxWidth()
             .alpha(buttonAlpha)
     ) {
+//    Button(
+//        onClick = onClick,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(top = 16.dp)
+//            .background(
+//                color = MaterialTheme.colorScheme.primary,
+//                shape = RoundedCornerShape(4.dp)
+//            )
+//            .alpha(buttonAlpha)
+//     ) {
         Text(
             text = "Selanjutnya",
             color = Color.White
