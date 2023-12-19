@@ -1,5 +1,7 @@
 package com.heptavators.friendease.ui.screen.detailTalent
 
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.heptavators.friendease.R
@@ -53,6 +57,7 @@ import com.heptavators.friendease.ui.theme.roboto
 fun DetailTalentScreen(
     id: String,
     navigateToBack: () -> Unit = {},
+    makePayment: () -> Unit = {},
     viewModel: DetailViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
@@ -463,6 +468,20 @@ fun DetailTalentScreen(
 //                                    .clip(RoundedCornerShape(4.dp))
 //                            )
                         }
+                        Button(
+                            onClick =  { makePayment() },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp)
+                                .align(Alignment.End)
+                        ) {
+                            Text(
+                                text = "Ajak Jalan",
+                                fontFamily = roboto,
+                                fontSize = 23.sp,
+                                color = MaterialTheme.colorScheme.tertiary,
+                            )
+                        }
                     }
                 }
             }
@@ -471,13 +490,12 @@ fun DetailTalentScreen(
     }
 }
 
-
 @Composable
 @Preview(showBackground = true)
 fun MenuItemPreview() {
     FriendeaseTheme {
         DetailTalentScreen(
-            id = "1"
+            id = "1",
         )
     }
 }

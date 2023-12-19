@@ -13,10 +13,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,9 +41,12 @@ import com.heptavators.friendease.ui.theme.roboto
 
 @Composable
 fun DetailScreen(onBackPressed: () -> Unit) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(state = scrollState)
             .background(color = Color.White)
             .padding(16.dp)
     ) {
@@ -399,6 +405,15 @@ fun DetailScreen(onBackPressed: () -> Unit) {
                             .size(80.dp, 100.dp)
                             .clip(RoundedCornerShape(4.dp))
                     )
+                }
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp)
+                        .align(Alignment.End)
+                ) {
+                    Text(text = "Ajak Jalan")
                 }
             }
         }

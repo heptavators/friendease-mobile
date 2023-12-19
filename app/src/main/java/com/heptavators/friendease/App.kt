@@ -1,5 +1,7 @@
 package com.heptavators.friendease
 
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -42,6 +45,7 @@ import com.heptavators.friendease.ui.screen.getViewModelFactory
 import com.heptavators.friendease.ui.screen.home.HomeScreen
 import com.heptavators.friendease.ui.screen.login.LoginScreen
 import com.heptavators.friendease.ui.screen.notification.NotificationScreen
+import com.heptavators.friendease.ui.screen.payment.MidtransPayment
 import com.heptavators.friendease.ui.screen.payment.PaymentScreen
 import com.heptavators.friendease.ui.screen.profile.ProfileScreen
 import com.heptavators.friendease.ui.screen.register.RegisterScreen
@@ -53,6 +57,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun App(
     modifier: Modifier = Modifier,
+    makePayment: () -> Unit,
     navController: NavHostController = rememberNavController(),
     viewModel: AppViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -171,7 +176,20 @@ fun App(
                         id = idTalent,
                         navigateToBack = {
                             navController.popBackStack()
-                        }
+                        },
+                        makePayment = {
+                            navController.navigate(Screen.MidtransPayment.route)
+                        },
+
+                    )
+                }
+                composable(
+                    route = Screen.MidtransPayment.route
+                ){
+                    MidtransPayment(
+                        navigateToBack = {
+                            navController.popBackStack()
+                        },
                     )
                 }
                 composable(Screen.Talent.route) {

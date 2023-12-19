@@ -110,4 +110,9 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.3.1")
 
     implementation("com.google.firebase:firebase-analytics:21.5.0")
+
+    //    Midtrans
+    implementation("com.midtrans:uikit:2.0.0-SANDBOX")
+    implementation("com.midtrans:uikit:1.23.1")
+
 }
