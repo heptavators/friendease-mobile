@@ -2,14 +2,15 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.dylan.friendease"
+    namespace = "com.heptavators.friendease"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.dylan.friendease"
+        applicationId = "com.heptavators.friendease"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -31,6 +32,12 @@ android {
             )
         }
     }
+
+    packagingOptions {
+        pickFirst("META-INF/AL2.0")
+        pickFirst("META-INF/LGPL2.1")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -93,5 +100,14 @@ dependencies {
     implementation("com.google.accompanist:accompanist-pager:0.22.0-rc")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
 
+    implementation("com.google.gms:google-services:4.4.0")
 
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.squareup.picasso:picasso:2.8")
+
+    //    notif
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-messaging:23.3.1")
+
+    implementation("com.google.firebase:firebase-analytics:21.5.0")
 }
