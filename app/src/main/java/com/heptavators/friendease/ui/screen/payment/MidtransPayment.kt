@@ -28,6 +28,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 @Composable
 fun MidtransPayment(
     navigateToBack: () -> Unit = {},
+    paymentUrl: String = "",
     ) {
     val context = LocalContext.current
 

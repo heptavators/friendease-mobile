@@ -2,6 +2,7 @@ package com.heptavators.friendease.ui.utlis
 
 import com.heptavators.friendease.ui.navigation.Screen
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 fun String.truncateText(maxLength: Int = 80): String {
@@ -30,4 +31,12 @@ fun String?.showBottomBar(): Boolean {
         Screen.Profile.route -> true
         else -> false
     }
+}
+
+fun convertToAmPmFormat(time24: String): String {
+    val formatter24 = DateTimeFormatter.ofPattern("HH:mm")
+    val formatterAmPm = DateTimeFormatter.ofPattern("hh:mm a")
+
+    val localTime = LocalTime.parse(time24, formatter24)
+    return localTime.format(formatterAmPm)
 }
