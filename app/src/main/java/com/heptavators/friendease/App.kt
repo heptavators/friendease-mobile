@@ -57,7 +57,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun App(
     modifier: Modifier = Modifier,
-    makePayment: () -> Unit,
     navController: NavHostController = rememberNavController(),
     viewModel: AppViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -177,23 +176,31 @@ fun App(
                         navigateToBack = {
                             navController.popBackStack()
                         },
-                        makePayment = {
-                            navController.navigate(Screen.MidtransPayment.route)
+                        makePayment = { paymentUrl ->
+                            navController.navigate(Screen.MidtransPayment.createRoute(paymentUrl))
                         },
-
                     )
                 }
                 composable(
-                    route = Screen.MidtransPayment.route
+                    route = Screen.MidtransPayment.route,
+                    arguments = listOf(navArgument("paymentUrl") { type = NavType.StringType })
                 ){
+                    val paymentUrl = it.arguments?.getString("paymentUrl") ?: ""
                     MidtransPayment(
+                        paymentUrl = paymentUrl,
                         navigateToBack = {
                             navController.popBackStack()
+                        },
+                        navigateToSchedule = {
+                            navController.navigate(Screen.Schedule.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
                         },
                     )
                 }
                 composable(Screen.Talent.route) {
-//                    FavoriteScreen()
                 }
                 composable(Screen.Search.route) {
                     SearchScreen(
@@ -224,6 +231,9 @@ fun App(
                                     inclusive = true
                                 }
                             }
+                        },
+                        makePayment = { paymentUrl ->
+                            navController.navigate(Screen.MidtransPayment.createRoute(paymentUrl))
                         },
                     )
                 }

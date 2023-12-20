@@ -13,29 +13,39 @@ data class DetailTalentResponse(
 
 data class DetailTalentData(
 
+	@field:SerializedName("authId")
+	val authId: String,
+	@field:SerializedName("talentId")
+	val talentId: String,
+
+	@field:SerializedName("description")
+	val description: String?,
+
+	@field:SerializedName("verified_status")
+	val verifiedStatus: String,
+
+
+	@field:SerializedName("rating")
+	val rating: Any,
+
 	@field:SerializedName("highlight")
 	val highlight: List<HighlightItem>,
 
 	@field:SerializedName("auth")
 	val auth: AuthDetail,
 
-	@field:SerializedName("talent")
-	val talent: Talent
+	@field:SerializedName("tags")
+	val tags: List<Tags>,
+
+
 )
 
-data class Talent(
+data class Tags(
+	@field:SerializedName("tagId")
+	val tagId: String,
 
-	@field:SerializedName("verified_status")
-	val verifiedStatus: String,
-
-	@field:SerializedName("talentId")
-	val talentId: String,
-
-	@field:SerializedName("rating")
-	val rating: Any,
-
-	@field:SerializedName("authId")
-	val authId: String
+	@field:SerializedName("name")
+	val name: String,
 )
 data class AuthDetail(
 

@@ -11,37 +11,42 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.heptavators.friendease.ui.components.CardSchedule
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.heptavators.friendease.ui.components.ScheduleList
+import com.heptavators.friendease.ui.components.UiState
+import com.heptavators.friendease.ui.screen.getViewModelFactory
 import com.heptavators.friendease.ui.theme.FriendeaseTheme
 
 @Composable
 fun ScheduleScreen(
     modifier: Modifier = Modifier,
     navigateToLogin: () -> Unit,
+    makePayment: (String) -> Unit = {},
+    viewModel: ScheduleViewModel = viewModel(
+        factory = getViewModelFactory(context = LocalContext.current)
+    ),
 ) {
-    var tabIndex by remember { mutableStateOf(0) }
 
-    val tabs = listOf("Terjadwal", "Selesai")
-
+    val orderData by viewModel.orderData
+    LaunchedEffect(key1 = true,){
+        if (orderData is UiState.Loading){
+            viewModel.getOrder()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -75,75 +80,32 @@ fun ScheduleScreen(
                 .offset(y = 1.dp)
         )
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            TabRow(selectedTabIndex = tabIndex, modifier = Modifier.border(0.dp, Color.Transparent)) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        text = { Text(title, color = MaterialTheme.colorScheme.onPrimary) },
-                        selected = tabIndex == index,
-                        onClick = { tabIndex = index },
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.background)
-                            .border(0.dp, Color.Transparent)
+            when(orderData){
+                is UiState.Loading -> {
+                    Text(text = "Loading")
+                }
+                is UiState.Success -> {
+                    val data = (orderData as UiState.Success).data
+                    ScheduleList(
+                        data = data.data,
+                        makePayment = makePayment
                     )
                 }
-            }
-            when (tabIndex) {
-                0 -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(bottom = 10.dp, top = 3.dp)
-                    ) {
-                        this.items(30) { index ->
-                            CardSchedule()
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 12.dp)
-                                    .align(Alignment.CenterHorizontally),
-                                color = Color.Gray,
-                                thickness = 1.dp
-                            )
-                            Spacer(
-                                modifier = Modifier
-                                    .height(4.dp)
-                            )
-                        }
-                    }
+                is UiState.Error -> {
+                    Text(text = "Error")
                 }
-                1 -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(bottom = 10.dp, top = 3.dp)
-                    ) {
-                        this.items(3) { index ->
-                            CardSchedule()
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 12.dp)
-                                    .align(Alignment.CenterHorizontally),
-                                color = Color.Gray,
-                                thickness = 1.dp
-                            )
-                            Spacer(
-                                modifier = Modifier
-                                    .height(4.dp)
-                            )
-                        }
-                    }
+                is UiState.NotLogged -> {
+                    navigateToLogin()
                 }
             }
         }
 
     }
 }
-
-
 
 
 @Preview

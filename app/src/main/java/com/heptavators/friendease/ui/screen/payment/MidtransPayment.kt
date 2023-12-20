@@ -28,7 +28,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 @Composable
 fun MidtransPayment(
     navigateToBack: () -> Unit = {},
-    paymentUrl: String = "",
+    paymentUrl: String,
+    navigateToSchedule: () -> Unit = {}
     ) {
     val context = LocalContext.current
 
@@ -42,7 +43,7 @@ fun MidtransPayment(
         ) {
             IconButton(
                 onClick = {
-                    navigateToBack()
+                    navigateToSchedule()
                 },
                 modifier = Modifier.size(58.dp)
             ) {
@@ -87,7 +88,7 @@ fun MidtransPayment(
 
                 // Load the URL
 
-                webView.loadUrl("https://app.sandbox.midtrans.com/snap/v3/redirection/f7da5ed0-244e-44b9-8f41-e97dd770e6ca/")
+                webView.loadUrl("https://app.sandbox.midtrans.com/snap/v3/redirection/${paymentUrl}")
             }
         )
     }

@@ -3,8 +3,6 @@ package com.heptavators.friendease.ui.screen.detailTalent
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.util.Log
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,8 +28,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,10 +36,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TimeInput
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -63,12 +55,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.heptavators.friendease.R
 import com.heptavators.friendease.data.model.DetailTalentData
-import com.heptavators.friendease.ui.components.CustomInput
 import com.heptavators.friendease.ui.components.UiState
 import com.heptavators.friendease.ui.screen.getViewModelFactory
 import com.heptavators.friendease.ui.theme.FriendeaseTheme
@@ -77,13 +67,15 @@ import com.heptavators.friendease.ui.utlis.convertToAmPmFormat
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import androidx.compose.material3.CircularProgressIndicator
+import com.heptavators.friendease.data.model.OrderItem
 
 
 @Composable
 fun DetailTalentScreen(
     id: String,
     navigateToBack: () -> Unit = {},
-    makePayment: () -> Unit = {},
+    makePayment: (String) -> Unit = {},
     viewModel: DetailViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
@@ -95,7 +87,8 @@ fun DetailTalentScreen(
 
     if (showSheet) {
         BottomSheet(
-            talentData = (talentData as UiState.Success<DetailTalentData>).data
+            talentData = (talentData as UiState.Success<DetailTalentData>).data,
+            makePayment = makePayment,
         ) {
             showSheet = false
         }
@@ -331,7 +324,7 @@ fun DetailTalentScreen(
                         .padding(16.dp, 8.dp, 16.dp, 0.dp)
                 )
                 Text(
-                    text = "Saya adalah wibu sejati, watashi wibu desu yo, watashi anime daisuki desu, anime favorit watashi sousou no frieren desu, semoga kita bisa menjadi tomodachi desu.",
+                    text = talentData.description ?: "-",
                     fontFamily = roboto,
                     fontSize = 15.sp,
                     color = MaterialTheme.colorScheme.onPrimary,
@@ -388,7 +381,7 @@ fun DetailTalentScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "${talentData.talent.rating}/5",
+                        text = "${talentData.rating}/5",
                         fontFamily = roboto,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
@@ -404,6 +397,14 @@ fun DetailTalentScreen(
                     )
 
                 }
+                Spacer(modifier = Modifier.width(8.dp))
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .width(4.dp)
+                        .padding(vertical = 8.dp),
+                    color = Color.Gray
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -493,7 +494,6 @@ fun DetailTalentScreen(
                 }
                 Button(
                     onClick = {
-//                                makePayment()
                         showSheet = true
                     },
                     modifier = Modifier
@@ -524,23 +524,47 @@ fun DetailTalentScreen(
 @Composable
 fun BottomSheet(
     talentData: DetailTalentData,
+    viewModel: DetailViewModel = viewModel(
+        factory = getViewModelFactory(context = LocalContext.current)
+    ),
+    makePayment: (String) -> Unit = {},
     onDismiss: () -> Unit,
 ) {
+    val orderStatus by viewModel.orderStatus
+    val orderData by viewModel.orderData
+
+    var textSubmit by remember { mutableStateOf("Ajak Sekarang") }
+
     val modalBottomSheetState = rememberModalBottomSheetState()
     var activity by remember { mutableStateOf("") }
     var start_time by remember { mutableStateOf("") }
     var end_time by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("") }
-    Log.d("konversi test", convertToAmPmFormat("16:09"))
-    Log.d("BottomSheet", "time: $start_time, $end_time, date: $date")
+
+    val onSubmit = {activity: String, type: String, start_time: String, end_time: String, date: String ->
+        viewModel.orderTalent(
+            talentData.talentId,
+            activity,
+            type,
+            convertToAmPmFormat(start_time),
+            convertToAmPmFormat(end_time),
+            date
+        )
+    }
+
+    LaunchedEffect(orderData) {
+        if (orderData is UiState.Loading) {
+        }
+        if (orderData is UiState.Success) {
+            makePayment((orderData as UiState.Success<OrderItem>).data.token?:"")
+        }
+    }
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         sheetState = modalBottomSheetState,
         dragHandle = { BottomSheetDefaults.DragHandle() },
         containerColor = MaterialTheme.colorScheme.background,
-//        modifier = Modifier
-//            .fillMaxHeight()
     ) {
         Column(
             modifier = Modifier
@@ -571,12 +595,6 @@ fun BottomSheet(
                         .fillMaxWidth()
                 )
             }
-//            Text(
-//                text = talentData.talent.talentId,
-//                color = Color.Black,
-//                modifier = Modifier
-//                    .padding(8.dp)
-//            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -658,6 +676,8 @@ fun BottomSheet(
         }
         Button(
             onClick = {
+                textSubmit = "Loading"
+                onSubmit(activity, "offline", start_time, end_time, date)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -665,7 +685,7 @@ fun BottomSheet(
                 .align(Alignment.End)
         ) {
             Text(
-                text = "Ajak Sekarang",
+                text = textSubmit,
                 fontFamily = roboto,
                 fontSize = 23.sp,
                 color = MaterialTheme.colorScheme.tertiary,

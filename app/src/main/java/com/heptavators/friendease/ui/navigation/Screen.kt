@@ -10,7 +10,9 @@ sealed class Screen(val route: String) {
     object Search : Screen("search")
     object Schedule : Screen("schedule")
     object Payment : Screen("payment")
-    object MidtransPayment : Screen("mindtrans/payment")
+    object MidtransPayment : Screen("midtrans/payment/{paymentUrl}") {
+        fun createRoute(paymentUrl: String) = "midtrans/payment/$paymentUrl"
+    }
     object Notification : Screen("notification")
     object Profile : Screen("profile")
     object Talent : Screen("talent")

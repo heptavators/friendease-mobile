@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.heptavators.friendease.AppViewModel
 import com.heptavators.friendease.data.di.Injection
 import com.heptavators.friendease.data.repository.NotificationRepository
+import com.heptavators.friendease.data.repository.OrderRepository
 import com.heptavators.friendease.data.repository.TalentRepository
 import com.heptavators.friendease.data.repository.UserRepository
 import com.heptavators.friendease.ui.screen.Search.SearchViewModel
@@ -14,12 +15,14 @@ import com.heptavators.friendease.ui.screen.home.HomeViewModel
 import com.heptavators.friendease.ui.screen.login.LoginViewModel
 import com.heptavators.friendease.ui.screen.notification.NotificationViewModel
 import com.heptavators.friendease.ui.screen.profile.ProfileViewModel
+import com.heptavators.friendease.ui.screen.schedule.ScheduleViewModel
 import com.heptavators.friendease.ui.screen.welcome.WelcomeViewModel
 
 class ViewModelFactory(
     private val userRepository: UserRepository,
     private val talentRepository: TalentRepository,
-    private val notificationRepository: NotificationRepository
+    private val notificationRepository: NotificationRepository,
+    private val orderRepository: OrderRepository,
 ): ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -30,6 +33,7 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(talentRepository) as T
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(talentRepository) as T
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> SearchViewModel(talentRepository) as T
+            modelClass.isAssignableFrom(ScheduleViewModel::class.java) -> ScheduleViewModel(orderRepository) as T
             modelClass.isAssignableFrom(NotificationViewModel::class.java) -> NotificationViewModel(notificationRepository) as T
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(userRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
@@ -43,5 +47,6 @@ fun getViewModelFactory(context: Context): ViewModelFactory {
         Injection.provideUserRepository(context),
         Injection.provideTalentRepository(context),
         Injection.provideNotificationRepository(context),
+        Injection.provideOrderRepository(context),
         )
 }

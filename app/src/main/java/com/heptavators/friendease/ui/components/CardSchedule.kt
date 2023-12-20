@@ -1,6 +1,7 @@
 package com.heptavators.friendease.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,12 +27,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.heptavators.friendease.data.model.OrderItem
 import com.heptavators.friendease.ui.theme.FriendeaseTheme
 
 @Composable
-fun CardSchedule() {
+fun CardSchedule(
+    order: OrderItem,
+    makePayment: () -> Unit
+) {
     Box(
         modifier = Modifier
+            .clickable {
+                makePayment()
+            }
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.background,
@@ -58,7 +66,7 @@ fun CardSchedule() {
                     ){
                         Column {
                             Text(
-                                text = "10 Dec, 15:00",
+                                text = order.date,
                                 color = Color.Gray,
                                 fontSize = 10.sp,
                             )
@@ -77,7 +85,7 @@ fun CardSchedule() {
                         )
                         {
                             Text(
-                                text = "Fujikawa Chiai",
+                                text = order.token?:"",
                                 color = MaterialTheme.colorScheme.primary,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
@@ -89,7 +97,7 @@ fun CardSchedule() {
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
-                                text = "Memancing",
+                                text = order.name,
                                 color = MaterialTheme.colorScheme.primary,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
@@ -106,14 +114,16 @@ fun CardSchedule() {
                         modifier = Modifier
                     ){
                         Text(
-                            text = "Rp. 100.000",
+                            text = "Rp. ${order.price}",
                             color = Color.Gray,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier
                         )
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = {
+
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Color(0xFF00C3A4),
                                 contentColor = Color.White
@@ -144,6 +154,6 @@ fun CardSchedule() {
 @Preview
 fun CardSchedulePreview(){
     FriendeaseTheme{
-        CardSchedule()
+//        CardSchedule()
     }
 }
