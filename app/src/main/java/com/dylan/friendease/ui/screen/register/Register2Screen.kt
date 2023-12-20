@@ -185,6 +185,7 @@ fun Register2Screen(
                         )
                         Button(
                             onClick = {
+                                      navigateToHome()
                             },
                             modifier = Modifier
                                 .padding(top = 40.dp)

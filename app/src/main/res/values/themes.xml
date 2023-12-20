@@ -3,4 +3,11 @@
     <style name="Theme.Friendease" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <style name="Theme.Friendease.dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorSecondary">@color/neutral</item>
+        <item name="colorPrimary">@color/primary2</item>
+        <item name="android:colorAccent">@color/primary2</item>
+        <item name="colorAccent">@color/primary2</item>
+    </style>
 </resources>

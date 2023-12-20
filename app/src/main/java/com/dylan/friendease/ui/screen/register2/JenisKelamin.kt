@@ -54,7 +54,7 @@ import com.dylan.friendease.ui.theme.roboto
 fun JenisKelamin (
     modifier: Modifier = Modifier
 ){
-    val progress by remember { mutableStateOf(0.5f) }
+    val progress by remember { mutableStateOf(0.55f) }
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxSize()

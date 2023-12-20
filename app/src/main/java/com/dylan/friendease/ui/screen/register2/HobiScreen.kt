@@ -30,6 +30,7 @@ fun HobiScreen(
     modifier: Modifier = Modifier
 ) {
     var selectedTags by remember { mutableStateOf(emptyList<String>()) }
+    val progress by remember { mutableStateOf(0.55f) }
 
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -43,7 +44,7 @@ fun HobiScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             LinearProgressIndicator(
-                progress = 0.55f,
+                progress = progress,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .fillMaxWidth()
