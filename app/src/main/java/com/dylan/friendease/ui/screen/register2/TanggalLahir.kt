@@ -42,9 +42,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dylan.friendease.R
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
-import com.heptavators.friendease.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

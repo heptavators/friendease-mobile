@@ -90,4 +90,9 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.2")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.20.0")
+
+    // untuk memuat gambar
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+
 }
