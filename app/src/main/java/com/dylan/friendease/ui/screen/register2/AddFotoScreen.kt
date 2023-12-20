@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,7 +42,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dylan.friendease.R
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
 
@@ -114,6 +114,7 @@ fun AddFotoScreen (
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .fillMaxHeight()
                             .padding(16.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -134,7 +135,7 @@ fun AddFotoScreen (
                                 modifier = Modifier.size(40.dp)
                             )
                         }
-                        Spacer(modifier = Modifier.height(200.dp))
+                        Spacer(modifier = Modifier.weight(1f))
                         Button(
                             onClick = {
                             },

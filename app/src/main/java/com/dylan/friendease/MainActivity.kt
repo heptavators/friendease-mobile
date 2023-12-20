@@ -16,7 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import com.dylan.friendease.ui.screen.register2.NamaLengkapScreen
 import com.dylan.friendease.ui.theme.FriendeaseTheme
+import com.heptavators.friendease.R
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = Color(R.color.primary2)
                 ) {
-                    App()
+                    NamaLengkapScreen()
                 }
             }
         }

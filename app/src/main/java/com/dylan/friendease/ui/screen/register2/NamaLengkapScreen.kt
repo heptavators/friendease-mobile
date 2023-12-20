@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,11 +39,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dylan.friendease.R
 import com.dylan.friendease.ui.components.CustomInput
 import com.dylan.friendease.ui.screen.register.Register2Screen
 import com.dylan.friendease.ui.theme.FriendeaseTheme
 import com.dylan.friendease.ui.theme.roboto
+import com.heptavators.friendease.R
 
 @Composable
 fun NamaLengkapScreen(
@@ -122,6 +123,7 @@ fun NamaLengkapScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .fillMaxHeight()
                             .padding(16.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -187,7 +189,7 @@ fun NamaLengkapScreen(
 //                                )
                             }
                         }
-                        Spacer(modifier = Modifier.height(70.dp))
+                        Spacer(modifier = Modifier.weight(1f))
                         Button(
                             onClick = {
                             },

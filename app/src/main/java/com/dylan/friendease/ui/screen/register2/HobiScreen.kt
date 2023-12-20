@@ -54,6 +54,7 @@ fun HobiScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .fillMaxHeight()
                     .padding(top = 25.dp),
             ) {
                 Text(
@@ -95,7 +96,7 @@ fun HobiScreen(
                         }
                     }
                 )
-
+                Spacer(modifier = Modifier.weight(1f))
                 NextButton(
                     onClick = {
                     },

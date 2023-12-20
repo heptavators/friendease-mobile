@@ -52,6 +52,7 @@ import com.dylan.friendease.ui.screen.schedule.ScheduleScreen
 import com.dylan.friendease.ui.screen.welcome.WelcomeScreen
 import com.dylan.friendease.ui.theme.roboto
 import com.dylan.friendease.ui.utlis.showBottomBar
+import com.heptavators.friendease.R
 import kotlinx.coroutines.delay
 
 @Composable
