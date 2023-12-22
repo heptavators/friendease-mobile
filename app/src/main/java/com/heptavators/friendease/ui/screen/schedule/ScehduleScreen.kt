@@ -1,5 +1,6 @@
 package com.heptavators.friendease.ui.screen.schedule
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -46,6 +47,7 @@ fun ScheduleScreen(
     LaunchedEffect(key1 = true,){
         if (orderData is UiState.Loading){
             viewModel.getOrder()
+            Log.d("ScheduleScreen", "ScheduleScreen: ${orderData}")
         }
     }
 

@@ -84,6 +84,7 @@ fun CardSchedule(
                         Column(
                             modifier = Modifier
                             .align(Alignment.Top)
+                            .padding(top = 10.dp)
                         )
                         {
                             Text(

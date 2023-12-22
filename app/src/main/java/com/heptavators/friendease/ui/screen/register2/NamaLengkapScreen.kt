@@ -94,7 +94,7 @@ fun NamaLengkapScreen(
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 CustomInput(
-                    name = "Archie Stark",
+                    name = "Nama Lengkap",
                     initialText = namaLengkapText,
                     onValueChange = {
                         namaLengkapText = it
@@ -115,7 +115,7 @@ fun NamaLengkapScreen(
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 CustomInput(
-                    name = "Roger Sumatra",
+                    name = "Username",
                     initialText = usernameText,
                     onValueChange = {
                         usernameText = it
