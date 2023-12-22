@@ -149,7 +149,7 @@ fun UploadKtpScreen(
                     fontSize = 15.sp,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(110.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -170,25 +170,39 @@ fun UploadKtpScreen(
                         fontSize = 16.sp,
                     )
                 }
-
                 Button(
-                    onClick = {},
+                    onClick = {
+                    },
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(top = 16.dp)
                         .height(48.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(8.dp)
-                        )
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = "Ambil Foto KTP",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 8.dp)
+                        fontSize = 23.sp,
+                        color = MaterialTheme.colorScheme.tertiary,
                     )
                 }
+
+//                Button(
+//                    onClick = {},
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(top = 16.dp)
+//                        .height(48.dp)
+//                        .background(
+//                            color = MaterialTheme.colorScheme.primary,
+//                            shape = RoundedCornerShape(8.dp)
+//                        )
+//                ) {
+//                    Text(
+//                        text = "Ambil Foto KTP",
+//                        color = Color.White,
+//                        fontSize = 16.sp,
+//                        modifier = Modifier.padding(start = 8.dp)
+//                    )
+//                }
             }
 
         }

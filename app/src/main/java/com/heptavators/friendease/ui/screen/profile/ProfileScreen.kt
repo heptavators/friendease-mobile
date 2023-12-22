@@ -97,7 +97,7 @@ fun ProfileScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             AsyncImage(
-                                model = profile.avatar,
+                                model = profile.avatar ?: "",
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(72.dp)
@@ -116,21 +116,21 @@ fun ProfileScreen(
                                     .align(Alignment.Top)
                             ) {
                                 Text(
-                                    text = profile.fullname,
+                                    text = profile.fullname ?: "-",
                                     fontFamily = FontFamily.Default,
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
                                 )
 
                                 Text(
-                                    text = "@${profile.username}",
+                                    text = if(profile.username != null) "@${profile.username}" else "-",
                                     fontFamily = FontFamily.Default,
                                     color = Color.White,
                                     fontWeight = FontWeight.Normal,
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = profile.email,
+                                    text = profile.email ?: "-",
                                     fontFamily = FontFamily.Default,
                                     color = Color.Gray,
                                     fontWeight = FontWeight.Normal

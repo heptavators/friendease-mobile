@@ -5,10 +5,18 @@ import com.google.gson.annotations.SerializedName
 data class DetailTalentResponse(
 
 	@field:SerializedName("data")
-	val data: DetailTalentData,
+	val data: Talent,
+
 
 	@field:SerializedName("info")
 	val info: Info
+)
+
+data class Talent(
+
+	@field:SerializedName("talent")
+	val talent: DetailTalentData,
+
 )
 
 data class DetailTalentData(
@@ -26,7 +34,7 @@ data class DetailTalentData(
 
 
 	@field:SerializedName("rating")
-	val rating: Any,
+	val rating: Float,
 
 	@field:SerializedName("highlight")
 	val highlight: List<HighlightItem>,
@@ -34,13 +42,10 @@ data class DetailTalentData(
 	@field:SerializedName("auth")
 	val auth: AuthDetail,
 
-	@field:SerializedName("tags")
-	val tags: List<Tags>,
-
 
 )
 
-data class Tags(
+data class DetailTags(
 	@field:SerializedName("tagId")
 	val tagId: String,
 
@@ -83,7 +88,10 @@ data class AuthDetail(
 	val username: String,
 
 	@field:SerializedName("status")
-	val status: String
+	val status: String,
+
+	@field:SerializedName("tags")
+	val tags: List<DetailTags>,
 )
 
 data class LocationDetail(

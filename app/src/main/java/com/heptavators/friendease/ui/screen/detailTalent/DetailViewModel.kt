@@ -27,7 +27,7 @@ class DetailViewModel(
         talentRepository.getDetailTalent(id).observeForever {
             when (it) {
                 is UiState.Loading -> _talentData.value = UiState.Loading
-                is UiState.Success -> _talentData.value = UiState.Success(it.data.data)
+                is UiState.Success -> _talentData.value = UiState.Success(it.data.data.talent)
                 is UiState.Error -> _talentData.value = UiState.Error(it.errorMessage)
                 is UiState.NotLogged -> _talentData.value = UiState.NotLogged
             }

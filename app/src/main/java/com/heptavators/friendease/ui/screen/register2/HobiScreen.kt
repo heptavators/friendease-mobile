@@ -1,8 +1,13 @@
 package com.heptavators.friendease.ui.screen.register2
+
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,15 +23,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.heptavators.friendease.data.model.Tags
 import com.heptavators.friendease.ui.theme.FriendeaseTheme
 import com.heptavators.friendease.ui.theme.roboto
 
 @Composable
 fun HobiScreen(
+    tags: List<String>,
+    onValueChangeTags: (List<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedTags by remember { mutableStateOf(emptyList<String>()) }
-
+    var selectedTags by remember { mutableStateOf(tags) }
+    val progress by remember { mutableStateOf(0.55f) }
+    LaunchedEffect(selectedTags) {
+        onValueChangeTags(selectedTags)
+    }
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxSize()
@@ -34,12 +45,11 @@ fun HobiScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             LinearProgressIndicator(
-                progress = 0.55f,
+                progress = progress,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -49,6 +59,7 @@ fun HobiScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .fillMaxHeight()
                     .padding(top = 25.dp),
             ) {
                 Text(
@@ -76,7 +87,28 @@ fun HobiScreen(
                 )
 
                 TagSelection(
-                    availableTags = listOf("Mancing", "Travelling", "Peternak", "Membaca Buku", "Cosplayer"),
+                    availableTags = listOf(
+                        "Dermawan",
+                        "Cerdas",
+                        "Disiplin",
+                        "Percaya-diri",
+                        "Suka-menolong",
+                        "Keibuan",
+                        "Independen",
+                        "Humoris",
+                        "Skena",
+                        "Anak-Senja",
+                        "Berjiwa-petualang",
+                        "Penuh-semangat",
+                        "Kreatif",
+                        "Kutu-buku",
+                        "Perfeksionis",
+                        "Sabar",
+                        "Berjiwa-sosial",
+                        "Romantis",
+                        "Kritis",
+                        "Terorganisir",
+                    ),
                     selectedTags = selectedTags,
                     onTagSelected = { tag ->
                         selectedTags = if (selectedTags.contains(tag)) {
@@ -90,7 +122,7 @@ fun HobiScreen(
                         }
                     }
                 )
-
+                Spacer(modifier = Modifier.weight(1f))
                 NextButton(
                     onClick = {
                     },
@@ -102,22 +134,22 @@ fun HobiScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TagSelection(
     availableTags: List<String>,
     selectedTags: List<String>,
     onTagSelected: (String) -> Unit
 ) {
-    LazyRow(
+    FlowRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
     ) {
-        items(availableTags) { tag ->
+        availableTags.forEach { tag ->
             TagButton(
                 text = tag,
                 isSelected = tag in selectedTags,
-                onClick = { onTagSelected(tag) }
+                onClick = { onTagSelected(tag) },
             )
         }
     }
@@ -129,31 +161,33 @@ fun TagButton(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val shape = RoundedCornerShape(4.dp)
-    val borderModifier = Modifier.border(
-        width = 1.dp,
-        color = MaterialTheme.colorScheme.primary,
-        shape = shape
-    )
+    val shape = RoundedCornerShape(15.dp)
+    val defaultColor = Color.White
+    val selectedColor = MaterialTheme.colorScheme.primary
 
-    Button(
-        onClick = onClick,
+    Box(
         modifier = Modifier
-            .heightIn(min = 36.dp)
-            .padding(horizontal = 8.dp)
+            .heightIn(min = 38.dp)
+            .padding(vertical = 8.dp, horizontal = 8.dp)
             .background(
-                color = if (isSelected) MaterialTheme.colorScheme.primary else Color.White,
+                color = if (isSelected) selectedColor else defaultColor,
                 shape = shape
             )
-            .then(if (isSelected) borderModifier else Modifier)
+            .border(
+                width = 1.dp,
+                color = if (isSelected) defaultColor else selectedColor,
+                shape = shape
+            )
+            .clickable { onClick() }
     ) {
         Text(
             text = text,
-            color = if (isSelected) Color.White else MaterialTheme.colorScheme.primary
+            color = if (isSelected) defaultColor else selectedColor,
+            modifier = Modifier
+                .padding(8.dp)
         )
     }
 }
-
 
 @Composable
 fun NextButton(
@@ -163,36 +197,27 @@ fun NextButton(
 ) {
     val buttonAlpha = if (isEnabled) 1f else 0.5f
 
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp)
-            .background(
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(4.dp)
-            )
-            .alpha(buttonAlpha)
-    ) {
-        Text(
-            text = "Selanjutnya",
-            color = Color.White
-        )
-        Text(
-            text = "$selectedTagsCount/5",
-            color = Color.White,
-            modifier = Modifier.padding(start = 8.dp)
-        )
-    }
+//    Button(
+//        onClick = onClick,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(top = 16.dp)
+//            .background(
+//                color = MaterialTheme.colorScheme.primary,
+//                shape = RoundedCornerShape(4.dp)
+//            )
+//            .alpha(buttonAlpha)
+//    )
 }
-
-
 
 @Preview
 @Composable
 fun HobiScreenPreview() {
     FriendeaseTheme {
-        HobiScreen()
+        HobiScreen(
+            tags = listOf("Mancing", "Travelling", "Peternak", "Membaca Buku", "Cosplayer"),
+            onValueChangeTags = {}
+        )
     }
 }
 

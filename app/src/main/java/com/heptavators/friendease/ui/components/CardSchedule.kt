@@ -33,12 +33,13 @@ import com.heptavators.friendease.ui.theme.FriendeaseTheme
 @Composable
 fun CardSchedule(
     order: OrderItem,
+    navigateToScheduleDetail: () -> Unit,
     makePayment: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .clickable {
-                makePayment()
+                navigateToScheduleDetail()
             }
             .fillMaxWidth()
             .background(
@@ -61,7 +62,8 @@ fun CardSchedule(
                 ){
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(top=10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ){
                         Column {
@@ -71,7 +73,7 @@ fun CardSchedule(
                                 fontSize = 10.sp,
                             )
                             AsyncImage(
-                                model = "https://cdn.myanimelist.net/images/voiceactors/3/59891.jpg",
+                                model = order.talent.auth.avatar,
                                 contentDescription = "Fujikawa Chiai",
                                 modifier = Modifier
                                     .size(100.dp)
@@ -85,7 +87,7 @@ fun CardSchedule(
                         )
                         {
                             Text(
-                                text = order.token?:"",
+                                text = order.talent.auth.username?:"",
                                 color = MaterialTheme.colorScheme.primary,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,

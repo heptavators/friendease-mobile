@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,8 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,13 +46,17 @@ import com.heptavators.friendease.ui.theme.roboto
 @Composable
 fun NamaLengkapScreen(
     modifier: Modifier = Modifier,
+    fullname: String = "",
+    onValueChangeFullname: (String) -> Unit,
+    username: String = "",
+    onValueChangeUsername: (String) -> Unit
 ) {
     val progress by remember { mutableStateOf(0.2f) }
     var namaLengkapText by remember {
-        mutableStateOf("")
+        mutableStateOf(fullname)
     }
     var usernameText by remember {
-        mutableStateOf("")
+        mutableStateOf(username)
     }
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -56,8 +65,7 @@ fun NamaLengkapScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
             LinearProgressIndicator(
@@ -88,10 +96,13 @@ fun NamaLengkapScreen(
                 CustomInput(
                     name = "Archie Stark",
                     initialText = namaLengkapText,
-                    onValueChange = { namaLengkapText = it }
+                    onValueChange = {
+                        namaLengkapText = it
+                        onValueChangeFullname(it)
+                    }
                 )
                 Text(
-                    text = "Nama lengkap kamu?",
+                    text = "Username kamu?",
                     fontFamily = roboto,
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = TextStyle(
@@ -106,7 +117,10 @@ fun NamaLengkapScreen(
                 CustomInput(
                     name = "Roger Sumatra",
                     initialText = usernameText,
-                    onValueChange = { usernameText = it }
+                    onValueChange = {
+                        usernameText = it
+                        onValueChangeUsername(it)
+                    }
                 )
                 Box(
                     modifier = Modifier
@@ -116,6 +130,7 @@ fun NamaLengkapScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .fillMaxHeight()
                             .padding(16.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -143,31 +158,45 @@ fun NamaLengkapScreen(
                                 )
                                 .padding(8.dp)
                         ) {
-                            Column {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
                                 Text(
-                                    text = "Nama lengkap dan username kamu akan tampil di profilmu. Isi dengan benar ya!",
-                                    color = MaterialTheme.colorScheme.primary,
+                                    buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                fontFamily = roboto,
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                fontSize = 15.sp,
+                                            )
+                                        ) {
+                                            append("Nama lengkap dan username kamu akan tampil di profilmu. Isi dengan benar ya!")
+                                        }
+                                        withStyle(
+                                            style = SpanStyle(
+                                                fontFamily = roboto,
+                                                color = MaterialTheme.colorScheme.onPrimary,
+                                                fontSize = 15.sp,
+                                                fontWeight = FontWeight.Bold,
+                                            )
+                                        ) {
+                                            append("Nama lengkapmu nantinya gak bisa diubah loh!")
+                                        }
+                                    },
+                                    modifier = Modifier.padding(top = 5.dp)
                                 )
-                                Text(
-                                    text = "Nama lengkapmu nantinya gak bisa diubah loh!",
-                                    color = Color.Black,
-                                )
+//                                Text(
+//                                    text = "Nama lengkap dan username kamu akan tampil di profilmu. Isi dengan benar ya!",
+//                                    color = MaterialTheme.colorScheme.primary,
+//                                )
+//                                Text(
+//                                    text = "Nama lengkapmu nantinya gak bisa diubah loh!",
+//                                    color = Color.Black,
+//                                )
                             }
                         }
-                        Spacer(modifier = Modifier.height(25.dp))
-                        Button(
-                            onClick = {
-                            },
-                            modifier = Modifier
-                                .padding(top = 16.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Berikutnya",
-                                fontSize = 23.sp,
-                                color = MaterialTheme.colorScheme.tertiary,
-                            )
-                        }
+                        Spacer(modifier = Modifier.weight(1f))
                     }
                 }
             }
@@ -179,6 +208,11 @@ fun NamaLengkapScreen(
 @Composable
 fun NamaLengkapScreenPreview() {
     FriendeaseTheme {
-        NamaLengkapScreen()
+        NamaLengkapScreen(
+            fullname = "",
+            onValueChangeFullname = {},
+            username = "",
+            onValueChangeUsername = {}
+        )
     }
 }

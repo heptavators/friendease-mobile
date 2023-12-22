@@ -35,6 +35,7 @@ import com.heptavators.friendease.ui.theme.FriendeaseTheme
 fun ScheduleScreen(
     modifier: Modifier = Modifier,
     navigateToLogin: () -> Unit,
+    navigateToScheduleDetail: (String) -> Unit = {},
     makePayment: (String) -> Unit = {},
     viewModel: ScheduleViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
@@ -92,6 +93,7 @@ fun ScheduleScreen(
                     val data = (orderData as UiState.Success).data
                     ScheduleList(
                         data = data.data,
+                        navigateToScheduleDetail = navigateToScheduleDetail,
                         makePayment = makePayment
                     )
                 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -68,6 +69,7 @@ fun ScanWajahScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .fillMaxHeight()
                     .padding(top = 25.dp),
             ){
                 Text(
@@ -144,7 +146,7 @@ fun ScanWajahScreen(
                     fontSize = 15.sp,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                Spacer(modifier = Modifier.height(80.dp))
+                Spacer(modifier = Modifier.weight(1f))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -165,25 +167,39 @@ fun ScanWajahScreen(
                         fontSize = 16.sp,
                     )
                 }
-
                 Button(
-                    onClick = {},
+                    onClick = {
+                    },
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(top = 16.dp)
                         .height(48.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(8.dp)
-                        )
+                        .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Ambil Foto KTP",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 8.dp)
+                        text = "Scan Wajah",
+                        fontSize = 23.sp,
+                        color = MaterialTheme.colorScheme.tertiary,
                     )
                 }
+
+//                Button(
+//                    onClick = {},
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(top = 16.dp)
+//                        .height(48.dp)
+//                        .background(
+//                            color = MaterialTheme.colorScheme.primary,
+//                            shape = RoundedCornerShape(8.dp)
+//                        )
+//                ) {
+//                    Text(
+//                        text = "Ambil Foto KTP",
+//                        color = Color.White,
+//                        fontSize = 16.sp,
+//                        modifier = Modifier.padding(start = 8.dp)
+//                    )
+//                }
             }
         }
     }

@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
+import com.heptavators.friendease.data.model.Tags
 import com.heptavators.friendease.data.model.TalentData
 import com.heptavators.friendease.ui.theme.FriendeaseTheme
 import com.heptavators.friendease.ui.theme.roboto
@@ -60,7 +64,7 @@ fun CardView(
                     color = Color.White,
                     shape = RoundedCornerShape(10.dp)
                 )
-        ){
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -106,9 +110,8 @@ fun CardView(
                         }
                     }
 
-//                    ganti yang bener nanti
                     Text(
-                        text = data.auth.fullname.truncateText(60),
+                        text = data.description?.truncateText(60) ?: "-",
                         fontFamily = roboto,
                         fontSize = 7.sp,
                         color = MaterialTheme.colorScheme.secondary,
@@ -116,26 +119,18 @@ fun CardView(
                         modifier = Modifier
                     )
 
-                    Row(
-                        modifier = Modifier,
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 5.dp, bottom = 5.dp),
                     ) {
-                        Tag(text = "Musik", color = Color(0xFFE5A8BF))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Tag(text = "Curhat", color = Color(0xFFE5A8BF))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Tag(text = "Aktor", color = Color(0xFFE5A8BF))
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Row(
-                        modifier = Modifier,
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Tag(text = "Penyanyi", color = Color(0xFFE5A8BF))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Tag(text = "Penuh semangat", color = Color(0xFFE5A8BF))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        ) {
+                            data.auth.tags.take(3).mapIndexed { index, tag ->
+                                Tag(text = tag.name, Color(0xFFFF8888).copy(alpha = 0.5f))
+                            }
+                        }
                     }
                 }
                 // Right side image
@@ -159,7 +154,7 @@ fun CardView(
                                     .size(80.dp, 100.dp)
                                     .height(100.dp)
                                     .aspectRatio(9f / 16f)
-                                    .weight(9f/16f)
+                                    .weight(9f / 16f)
                                     .zIndex(zIndex)
                             ) {
                                 AsyncImage(
@@ -200,10 +195,23 @@ fun Tag(text: String, color: Color) {
     }
 }
 
+//@Composable
+//fun TagGrid(tag: List<Tags>) {
+//    LazyVerticalGrid(
+//        columns = GridCells.Adaptive(minSize = 50.dp)
+//
+//    ) {
+//        items(tag, key={it.tagId}) { tag ->
+//            Tag(text = "Penuh semangat", Color(0xFFFF8888).copy(alpha = 0.5f))
+//        }
+//    }
+//}
+
 @Composable
 @Preview(showBackground = true)
-fun MenuItemPreview(){
-    FriendeaseTheme{
+fun MenuItemPreview() {
+    FriendeaseTheme {
 //        CardView(talentData = null)
     }
 }
+

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -165,63 +166,32 @@ fun DetailTalentScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp, 8.dp, 16.dp, 0.dp),
+                        .padding(16.dp, 8.dp, 16.dp, 0.dp)
+                        .horizontalScroll(rememberScrollState()),
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(15.dp)
+                    talentData.auth.tags.forEach { tag ->
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = Color(0xFFFF8888).copy(alpha = 0.5f),
+                                    shape = RoundedCornerShape(15.dp)
+                                )
+                                .padding(4.dp)
+                        ) {
+                            Text(
+                                text = tag.name,
+                                fontFamily = roboto,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                                modifier = Modifier.padding(8.dp)
                             )
-                            .padding(4.dp)
-                    ) {
-                        Text(
-                            text = "Wibu",
-                            fontFamily = roboto,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            color = Color.Black,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(15.dp)
-                            )
-                            .padding(4.dp)
-                    ) {
-                        Text(
-                            text = "Suka Musik",
-                            fontFamily = roboto,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(15.dp)
-                            )
-                            .padding(4.dp)
-                    ) {
-                        Text(
-                            text = "Cosplayer",
-                            fontFamily = roboto,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            color = Color.Black,
-                            modifier = Modifier.padding(8.dp)
-                        )
+                        }
                     }
                 }
+
+
                 Spacer(modifier = Modifier.height(15.dp))
                 Row(
                     modifier = Modifier
@@ -352,31 +322,31 @@ fun DetailTalentScreen(
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = "Star",
-                        tint = Color.Yellow,
+                        tint = if(talentData.rating >= 1) Color.Yellow else Color.Gray,
                         modifier = Modifier.size(16.dp)
                     )
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = "Star",
-                        tint = Color.Yellow,
+                        tint = if(talentData.rating >= 2) Color.Yellow else Color.Gray,
                         modifier = Modifier.size(16.dp)
                     )
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = "Star",
-                        tint = Color.Yellow,
+                        tint = if(talentData.rating >= 3) Color.Yellow else Color.Gray,
                         modifier = Modifier.size(16.dp)
                     )
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = "Star",
-                        tint = Color.Yellow,
+                        tint = if(talentData.rating >= 4) Color.Yellow else Color.Gray,
                         modifier = Modifier.size(16.dp)
                     )
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = "Star",
-                        tint = Color.Yellow,
+                        tint = if(talentData.rating >= 5) Color.Yellow else Color.Gray,
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))

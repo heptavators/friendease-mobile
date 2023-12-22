@@ -1,5 +1,6 @@
 package com.heptavators.friendease
 
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
@@ -37,9 +38,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.heptavators.friendease.ui.components.UiState
+import com.heptavators.friendease.ui.screen.scheduleDetail.ScheduleDetailScreen
 import com.heptavators.friendease.ui.navigation.NavigationItem
 import com.heptavators.friendease.ui.navigation.Screen
-import com.heptavators.friendease.ui.screen.Search.SearchScreen
+import com.heptavators.friendease.ui.screen.ViewModelFactory
 import com.heptavators.friendease.ui.screen.detailTalent.DetailTalentScreen
 import com.heptavators.friendease.ui.screen.getViewModelFactory
 import com.heptavators.friendease.ui.screen.home.HomeScreen
@@ -48,8 +51,10 @@ import com.heptavators.friendease.ui.screen.notification.NotificationScreen
 import com.heptavators.friendease.ui.screen.payment.MidtransPayment
 import com.heptavators.friendease.ui.screen.payment.PaymentScreen
 import com.heptavators.friendease.ui.screen.profile.ProfileScreen
+import com.heptavators.friendease.ui.screen.register.Register2Screen
 import com.heptavators.friendease.ui.screen.register.RegisterScreen
 import com.heptavators.friendease.ui.screen.schedule.ScheduleScreen
+import com.heptavators.friendease.ui.screen.search.SearchScreen
 import com.heptavators.friendease.ui.screen.welcome.WelcomeScreen
 import com.heptavators.friendease.ui.utlis.showBottomBar
 import kotlinx.coroutines.delay
@@ -66,9 +71,14 @@ fun App(
     val currentRoute = navBackStackEntry?.destination?.route
 
     val validateToken by viewModel.isHaveToken
+    val user by viewModel.profileData
+
 
     LaunchedEffect(validateToken) {
         viewModel.validateToken()
+    }
+    LaunchedEffect(user){
+        if(user is UiState.Loading) viewModel.user()
     }
 
     Scaffold (
@@ -98,6 +108,9 @@ fun App(
                 composable(Screen.SplashScreen.route) {
                     SplashScreen(navController = navController)
                 }
+                Log.d("token dari app.kt", user.toString())
+
+
                 composable(Screen.Welcome.route) {
                     WelcomeScreen(
                         navigateToLogin = {
@@ -123,7 +136,8 @@ fun App(
                         },
                     )
                 }
-                composable(Screen.Home.route) {
+
+            composable(Screen.Home.route) {
                     HomeScreen(
                         navigateToLogin = {
                             navController.navigate(Screen.Login.route) {
@@ -134,6 +148,13 @@ fun App(
                         },
                         navigateToWelcome = {
                             navController.navigate(Screen.Welcome.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                        navigateToRegister2 = {
+                            navController.navigate(Screen.Register2.route){
                                 popUpTo(navController.graph.id) {
                                     inclusive = true
                                 }
@@ -153,6 +174,13 @@ fun App(
                                 }
                             }
                         },
+                        navigateToRegister = {
+                            navController.navigate(Screen.Register.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
                     )
                 }
                 composable(Screen.Register.route) {
@@ -164,8 +192,26 @@ fun App(
                                 }
                             }
                         },
+                        navigateToLogin = {
+                            navController.navigate(Screen.Login.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = true
+                                }
+                            }
+                        },
                     )
                 }
+            composable(Screen.Register2.route) {
+                Register2Screen(
+                    navigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                )
+            }
                 composable(
                     route = Screen.DetailTalent.route,
                     arguments = listOf(navArgument("idTalent") { type = NavType.StringType })
@@ -232,11 +278,29 @@ fun App(
                                 }
                             }
                         },
+                        navigateToScheduleDetail = { scheduleDetail ->
+                            navController.navigate(Screen.ScheduleDetail.createRoute(scheduleDetail))
+                        },
                         makePayment = { paymentUrl ->
                             navController.navigate(Screen.MidtransPayment.createRoute(paymentUrl))
                         },
                     )
                 }
+            composable(
+                route = Screen.ScheduleDetail.route,
+                arguments = listOf(navArgument("scheduleDetail") { type = NavType.StringType })
+            ){
+                val scheduleDetail = it.arguments?.getString("scheduleDetail") ?: ""
+                ScheduleDetailScreen(
+                    id = scheduleDetail,
+                    makePayment = { paymentUrl ->
+                        navController.navigate(Screen.MidtransPayment.createRoute(paymentUrl))
+                    },
+                    navigateToBack = {
+                        navController.popBackStack()
+                    },
+                )
+            }
                 composable(Screen.Notification.route) {
                     NotificationScreen(
                         navigateToLogin = {

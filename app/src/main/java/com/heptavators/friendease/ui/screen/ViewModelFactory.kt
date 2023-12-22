@@ -15,7 +15,9 @@ import com.heptavators.friendease.ui.screen.home.HomeViewModel
 import com.heptavators.friendease.ui.screen.login.LoginViewModel
 import com.heptavators.friendease.ui.screen.notification.NotificationViewModel
 import com.heptavators.friendease.ui.screen.profile.ProfileViewModel
+import com.heptavators.friendease.ui.screen.register.RegisterViewModel
 import com.heptavators.friendease.ui.screen.schedule.ScheduleViewModel
+import com.heptavators.friendease.ui.screen.scheduleDetail.ScheduleDetailViewModel
 import com.heptavators.friendease.ui.screen.welcome.WelcomeViewModel
 
 class ViewModelFactory(
@@ -30,10 +32,12 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(AppViewModel::class.java) -> AppViewModel(userRepository) as T
             modelClass.isAssignableFrom(WelcomeViewModel::class.java) -> WelcomeViewModel(userRepository) as T
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(userRepository) as T
-            modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(talentRepository) as T
+            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(userRepository) as T
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(talentRepository, userRepository) as T
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(talentRepository) as T
             modelClass.isAssignableFrom(SearchViewModel::class.java) -> SearchViewModel(talentRepository) as T
             modelClass.isAssignableFrom(ScheduleViewModel::class.java) -> ScheduleViewModel(orderRepository) as T
+            modelClass.isAssignableFrom(ScheduleDetailViewModel::class.java) -> ScheduleDetailViewModel(orderRepository) as T
             modelClass.isAssignableFrom(NotificationViewModel::class.java) -> NotificationViewModel(notificationRepository) as T
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(userRepository) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

@@ -2,24 +2,16 @@ package com.heptavators.friendease.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ListOrderResponse(
+data class DetailOrderResponse(
 
 	@field:SerializedName("data")
-	val data: List<OrderItem>,
-
-	@field:SerializedName("info")
-	val info: Info
-)
-data class OrderResponse(
-
-	@field:SerializedName("data")
-	val data: OrderItem,
+	val data: DataOrder,
 
 	@field:SerializedName("info")
 	val info: Info
 )
 
-data class OrderItem(
+data class DataOrder(
 
 	@field:SerializedName("date")
 	val date: String,
@@ -34,7 +26,7 @@ data class OrderItem(
 	val type: String,
 
 	@field:SerializedName("token")
-	val token: String? = "",
+	val token: String,
 
 	@field:SerializedName("total_hour")
 	val totalHour: Int,
@@ -76,21 +68,5 @@ data class OrderItem(
 	val redirectUrl: String,
 
 	@field:SerializedName("updatedAt")
-	val updatedAt: String,
-
-	@field:SerializedName("talent")
-	val talent: DataTalent,
-
-	)
-data class DataTalent(
-	@field:SerializedName("auth")
-	val auth: DataAuth,
-)
-
-data class DataAuth(
-	@field:SerializedName("username")
-	val username: String,
-
-	@field:SerializedName("avatar")
-	val avatar: String,
+	val updatedAt: String
 )

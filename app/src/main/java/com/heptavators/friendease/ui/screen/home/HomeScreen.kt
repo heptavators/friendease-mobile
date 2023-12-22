@@ -44,16 +44,31 @@ import com.heptavators.friendease.ui.theme.roboto
 fun HomeScreen(
     navigateToLogin: () -> Unit,
     navigateToWelcome: () -> Unit,
+    navigateToRegister2: () -> Unit,
     navigateToDetail: (String) -> Unit,
     viewModel: HomeViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     ),
     ) {
     val talentData by viewModel.talentData
+    val profile by viewModel.profileData
 
     LaunchedEffect(talentData) {
         if (talentData is UiState.Loading) viewModel.getAllTalent()
+        if (talentData is UiState.Error)
         if (talentData is UiState.NotLogged) navigateToWelcome()
+    }
+    LaunchedEffect(profile) {
+        if (profile is UiState.Loading) viewModel.user()
+        if(profile is UiState.Success){
+            val profile = (profile as UiState.Success).data
+            if(profile.username == null){
+                navigateToRegister2()
+            }
+            Log.d("profile", profile.toString())
+        }
+        if (profile is UiState.Error) navigateToWelcome()
+        if (profile is UiState.NotLogged) navigateToLogin()
     }
     Column(
         modifier = Modifier
@@ -190,7 +205,8 @@ fun MenuItemPreview() {
         HomeScreen(
             navigateToLogin = {},
             navigateToWelcome = {},
-            navigateToDetail = {}
+            navigateToDetail = {},
+            navigateToRegister2 = {}
         )
     }
 }

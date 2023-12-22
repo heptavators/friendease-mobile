@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,14 +37,15 @@ import androidx.compose.ui.unit.sp
 import com.heptavators.friendease.R
 import com.heptavators.friendease.ui.theme.FriendeaseTheme
 import com.heptavators.friendease.ui.theme.roboto
-
 @Composable
 fun DeskripsiScreen(
+    userPreferences: String = "",
+    onValueChangeUserPreferences: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
     val progress by remember { mutableStateOf(1f) }
     var deskripsiTeks by remember {
-        mutableStateOf("")
+        mutableStateOf(userPreferences)
     }
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -52,8 +54,7 @@ fun DeskripsiScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
             LinearProgressIndicator(
@@ -97,6 +98,7 @@ fun DeskripsiScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .fillMaxHeight()
                             .padding(16.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -104,30 +106,20 @@ fun DeskripsiScreen(
                         CustomInputDeskripsi(
                             name = "Saya ingin punya teman yang bisa diajak ke event cosplay bareng.",
                             initialText = deskripsiTeks,
-                            onValueChange = { deskripsiTeks = it }
+                            onValueChange = {
+                                deskripsiTeks = it
+                                onValueChangeUserPreferences(it)
+                            }
                         )
-                        Spacer(modifier = Modifier.height(15.dp))
+                        Spacer(modifier = Modifier.height(35.dp))
                         Image(
                             painter = painterResource(id = R.drawable.user_preferences),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(212.dp),
+                                .height(216.dp),
                         )
-                        Spacer(modifier = Modifier.height(25.dp))
-                        Button(
-                            onClick = {
-                            },
-                            modifier = Modifier
-                                .padding(top = 16.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Cari temanmu",
-                                fontSize = 23.sp,
-                                color = MaterialTheme.colorScheme.tertiary,
-                            )
-                        }
+                        Spacer(modifier = Modifier.weight(1f))
                     }
                 }
             }
@@ -146,7 +138,7 @@ fun CustomInputDeskripsi(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .height(266.dp),
+            .height(320.dp),
         value = inputValue,
         onValueChange = {
             inputValue = it
@@ -156,7 +148,7 @@ fun CustomInputDeskripsi(
             Text(text = name)
         },
         placeholder = { Text(text = "Type here") },
-        shape = RoundedCornerShape(percent = 10),
+        shape = RoundedCornerShape(percent = 7),
         keyboardOptions = KeyboardOptions.Default,
     )
 }
@@ -165,6 +157,9 @@ fun CustomInputDeskripsi(
 @Composable
 fun AddDeskripsiPreview() {
     FriendeaseTheme {
-        DeskripsiScreen()
+        DeskripsiScreen(
+            userPreferences = "",
+            onValueChangeUserPreferences = {}
+        )
     }
 }

@@ -8,18 +8,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -52,9 +50,12 @@ import com.heptavators.friendease.ui.theme.roboto
 
 @Composable
 fun JenisKelamin (
+    gender: String = "",
+    onValueChangeGender: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
-    val progress by remember { mutableStateOf(0.5f) }
+    val progress by remember { mutableStateOf(0.55f) }
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier.fillMaxSize()
@@ -62,8 +63,7 @@ fun JenisKelamin (
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             LinearProgressIndicator(
@@ -90,61 +90,33 @@ fun JenisKelamin (
                     fontSize = 32.sp,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                ExposedDropdownJenisKelaminMenu()
+                ExposedDropdownJenisKelaminMenu(
+                    gender = gender,
+                    onValueChangeGender = onValueChangeGender,
+                )
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background),
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(top = 50.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .fillMaxHeight()
                             .padding(16.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.gender),
+                            painter = painterResource(id = R.drawable.tanggal_lahir),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(212.dp),
+                                .height(312.dp),
                         )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.primary,
-                                    shape = RoundedCornerShape(8.dp)
-                                )
-                                .background(
-                                    color = MaterialTheme.colorScheme.background,
-                                    shape = RoundedCornerShape(8.dp)
-                                )
-                                .padding(8.dp)
-                        ) {
-                            Text(
-                                text = "Bagikan lokasimu untuk tingkatkan kecocokan !",
-                                color = MaterialTheme.colorScheme.onPrimary,
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(25.dp))
-                        Button(
-                            onClick = {
-                            },
-                            modifier = Modifier
-                                .padding(top = 16.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Berikutnya",
-                                fontSize = 23.sp,
-                                color = MaterialTheme.colorScheme.tertiary,
-                            )
-                        }
+                        Spacer(modifier = Modifier.weight(1f))
                     }
                 }
             }
@@ -153,14 +125,17 @@ fun JenisKelamin (
 }
 
 @Composable
-fun ExposedDropdownJenisKelaminMenu() {
+fun ExposedDropdownJenisKelaminMenu(
+    gender: String,
+    onValueChangeGender: (String) -> Unit,
+) {
     var expanded by remember {
         mutableStateOf(false)
     }
-    val jeniskelamin = listOf("Laki-laki", "Perempuan")
+    val jeniskelamin = listOf("male", "female")
 
     var selectedItem by remember {
-        mutableStateOf("")
+        mutableStateOf(gender)
     }
     var textFieldSize by remember {
         mutableStateOf(Size.Zero)
@@ -176,15 +151,18 @@ fun ExposedDropdownJenisKelaminMenu() {
     ) {
         OutlinedTextField(
             value = selectedItem,
-            onValueChange = { selectedItem = it },
+            onValueChange = {
+                selectedItem = it
+                onValueChangeGender(it)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 }
-                .background(Color.White, shape = RoundedCornerShape(8.dp)),
+                .background(Color.White, shape = RoundedCornerShape(16.dp)),
             label = {
-                Text(text = "Pilih Kota / Kabupaten", color = Color.Gray)
+                Text(text = "Jenis Kelamin", color = Color.Gray)
             },
             trailingIcon = {
                 Icon(
@@ -193,7 +171,8 @@ fun ExposedDropdownJenisKelaminMenu() {
                     tint = Color.Gray,
                     modifier = Modifier.clickable { expanded = !expanded }
                 )
-            }
+            },
+            shape = RoundedCornerShape(percent = 40),
         )
         DropdownMenu(
             expanded = expanded,
@@ -214,6 +193,7 @@ fun ExposedDropdownJenisKelaminMenu() {
                     },
                     onClick = {
                         selectedItem = label
+                        onValueChangeGender(selectedItem)
                         expanded = false
                     }
                 )
@@ -227,6 +207,9 @@ fun ExposedDropdownJenisKelaminMenu() {
 @Composable
 fun JenisKelaminScreenPreview() {
     FriendeaseTheme {
-        JenisKelamin()
+        JenisKelamin(
+            gender = "",
+            onValueChangeGender = {}
+        )
     }
 }

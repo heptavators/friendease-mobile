@@ -14,6 +14,8 @@ data class TalentResponse(
 data class TalentData(
     @SerializedName("talentId")
     val talentId: String,
+    @SerializedName("description")
+    val description: String,
     @SerializedName("verified_status")
     val verifiedStatus: String,
     @SerializedName("rating")
@@ -46,7 +48,16 @@ data class Auth(
     @SerializedName("avatar")
     val avatar: String,
     @SerializedName("location")
-    val location: Location
+    val location: Location,
+    @SerializedName("tags")
+    val tags: List<Tags>
+)
+
+data class Tags(
+    @SerializedName("tagId")
+    val tagId: String,
+    @SerializedName("name")
+    val name: String,
 )
 
 data class Highlight(

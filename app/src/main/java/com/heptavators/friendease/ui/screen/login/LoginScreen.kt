@@ -3,7 +3,11 @@ package com.heptavators.friendease.ui.screen.login
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +45,7 @@ import com.heptavators.friendease.ui.theme.roboto
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navigateToHome: () -> Unit,
+    navigateToRegister: () -> Unit,
     viewModel: LoginViewModel = viewModel(
         factory = getViewModelFactory(context = LocalContext.current)
     )
@@ -50,17 +55,19 @@ fun LoginScreen(
     val loginStatus by viewModel.loginStatus
     val isLoading by viewModel.isLoading
 
-    val onLogin = {email: String, password: String ->
+    val onLogin = { email: String, password: String ->
         viewModel.login(email, password)
         Log.d("loginStatus", loginStatus.toString())
         Log.d("LoginScreen", "email: $email, password: $password")
     }
 
-    LaunchedEffect(loginStatus){
+    LaunchedEffect(loginStatus) {
         when (loginStatus) {
             is UiState.Success -> {
                 navigateToHome()
+                viewModel.changeDeviceToken()
             }
+
             else -> {}
         }
     }
@@ -96,7 +103,7 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(15.dp),
-        ){
+        ) {
             CustomInput(
                 name = "Email",
                 initialText = email,
@@ -110,7 +117,7 @@ fun LoginScreen(
         }
         Spacer(modifier = Modifier.height(5.dp))
 
-        when(loginStatus){
+        when (loginStatus) {
             is UiState.Error -> {
                 Text(
                     text = (loginStatus as UiState.Error).errorMessage,
@@ -125,26 +132,51 @@ fun LoginScreen(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
+
             else -> {}
         }
 
         Spacer(modifier = Modifier.height(5.dp))
-        Button(
-            onClick = {
-                onLogin(email, password)
-            },
-            enabled = !isLoading,
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .padding(4.dp)
-                .width(200.dp)
-                .align(Alignment.End)
+                .fillMaxWidth()
+                .padding(15.dp)
         ) {
-            Text(
-                text = if(isLoading) "Loading" else "Login",
-                fontFamily = roboto,
-                fontSize = 23.sp,
-                color = MaterialTheme.colorScheme.tertiary,
-            )
+            Column(
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = "belum punya akun?",
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .clickable {
+                            navigateToRegister()
+                        }
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Button(
+                    onClick = {
+                        onLogin(email, password)
+                    },
+                    enabled = !isLoading,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .width(200.dp)
+                        .align(Alignment.End)
+                ) {
+                    Text(
+                        text = if (isLoading) "Loading" else "Login",
+                        fontFamily = roboto,
+                        fontSize = 23.sp,
+                        color = MaterialTheme.colorScheme.tertiary,
+                    )
+                }
+            }
         }
         Spacer(modifier = Modifier.height(15.dp))
     }
@@ -154,8 +186,8 @@ fun LoginScreen(
 @Preview(showBackground = true)
 fun MenuItemPreview() {
     FriendeaseTheme {
-        LoginScreen(
-            navigateToHome = { }
-        )
+//        LoginScreen(
+//            navigateToHome = { }
+//        )
     }
 }

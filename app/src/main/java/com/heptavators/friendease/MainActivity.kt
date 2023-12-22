@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
 
             // Log and toast
             Log.d(Constants.MessageNotificationKeys.TAG, token)
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
     }
 

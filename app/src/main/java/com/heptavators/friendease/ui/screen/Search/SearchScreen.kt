@@ -1,4 +1,4 @@
-package com.heptavators.friendease.ui.screen.Search
+package com.heptavators.friendease.ui.screen.search
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,6 +45,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.heptavators.friendease.R
 import com.heptavators.friendease.ui.components.TalentList
 import com.heptavators.friendease.ui.components.UiState
+import com.heptavators.friendease.ui.screen.Search.SearchViewModel
 import com.heptavators.friendease.ui.screen.getViewModelFactory
 import com.heptavators.friendease.ui.theme.FriendeaseTheme
 import kotlinx.coroutines.flow.MutableStateFlow

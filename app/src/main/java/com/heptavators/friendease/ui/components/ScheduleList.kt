@@ -16,6 +16,7 @@ import com.heptavators.friendease.data.model.OrderResponse
 @Composable
 fun ScheduleList(
     data: List<OrderItem>,
+    navigateToScheduleDetail: (String) -> Unit,
     makePayment: (String) -> Unit,
 ) {
     LazyColumn(
@@ -26,6 +27,7 @@ fun ScheduleList(
         this.items(data, key = {it.orderId}) { order ->
             CardSchedule(
                 order,
+                navigateToScheduleDetail = {navigateToScheduleDetail(order.orderId?:"")},
                 makePayment = {makePayment(order.token?:"")}
             )
             Spacer(
